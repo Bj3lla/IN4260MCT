@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://du6ac0k36qgjt"]
+
+[ext_resource type="Script" uid="uid://cnufxc1etuv6y" path="res://soft_body_sim/soft_ball.gd" id="1_t06fl"]
+
+[node name="SoftBall" type="Node2D" unique_id=1300244316]
+script = ExtResource("1_t06fl")

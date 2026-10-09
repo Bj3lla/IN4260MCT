@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://rhaf4iq83g6m"]
+
+[ext_resource type="PackedScene" uid="uid://du6ac0k36qgjt" path="res://soft_body_sim/soft_ball.tscn" id="1_gkiwi"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_g4v7s"]
+size = Vector2(990, 171)
+
+[node name="SoftBodyTestWorld" type="Node2D" unique_id=1490522529]
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="." unique_id=1528803531]
+position = Vector2(285, 358)
+rotation = -0.5429248
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2" unique_id=741069204]
+position = Vector2(289.99997, 447)
+rotation = 0.45879126
+shape = SubResource("RectangleShape2D_g4v7s")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1339656111]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=1288898017]
+position = Vector2(289.99997, 447)
+rotation = 0.45879126
+shape = SubResource("RectangleShape2D_g4v7s")
+
+[node name="ProceduralSoftBall" parent="." unique_id=1210104278 instance=ExtResource("1_gkiwi")]
+position = Vector2(81, 52)
+spring_stiffness = 400.0

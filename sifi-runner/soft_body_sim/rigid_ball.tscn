@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://064eticklvju"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_g4v7s"]
+
+[node name="RigidBall" type="RigidBody2D" unique_id=394060542]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1488459390]
+shape = SubResource("CircleShape2D_g4v7s")
