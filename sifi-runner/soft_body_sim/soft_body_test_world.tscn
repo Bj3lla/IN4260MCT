@@ -25,4 +25,3 @@ shape = SubResource("RectangleShape2D_g4v7s")
 
 [node name="ProceduralSoftBall" parent="." unique_id=1210104278 instance=ExtResource("1_gkiwi")]
 position = Vector2(81, 52)
-spring_stiffness = 400.0
