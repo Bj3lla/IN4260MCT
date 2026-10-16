@@ -1,4 +1,4 @@
-extends Node2D
+extends Node
 
 @export_group("Circle Properties")
 @export_range(0.0, 1000000.0) var radius : float = 100.0
@@ -33,9 +33,11 @@ var outer_springs : Array[DampedSpringJoint2D]
 var center_springs : Array[DampedSpringJoint2D]
 
 # variables for graphics
+var visuals_container : Node2D
 var path : Path2D
 var polygon : Polygon2D
 var line : Line2D
+var remote_transform : RemoteTransform2D
 
 func _ready() -> void:
 	
@@ -44,9 +46,10 @@ func _ready() -> void:
 	# initialize curve points for graphics
 	# gets updated in _process
 	# since we have a fixed number of balls, the curve has a fixed number of points
-	polygon = $Polygon2D
-	line = $Line2D
-	path = $Path2D
+	visuals_container = $Visuals
+	polygon = $Visuals/Polygon2D
+	line = $Visuals/Line2D
+	path = $Visuals/Path2D
 	for i in range(num_points+1):
 		path.curve.add_point(Vector2(0,0))
 	
@@ -65,6 +68,9 @@ func _ready() -> void:
 	center_ball.radius = points_min_distance
 	add_child(center_ball)
 	rigid_balls.append(center_ball)
+	remote_transform = RemoteTransform2D.new()
+	center_ball.add_child(remote_transform)
+	remote_transform.remote_path = "../../Visuals"
 	
 	# initialize equally spaced points on circle
 	for i in range(num_points):
@@ -144,14 +150,16 @@ func get_in_and_out_curve_point(point : Vector2, convex_or_concave : float = 1.0
 
 func _process(delta: float) -> void:
 	# update overall position with position from center ball
-	position += rigid_balls[0].position
+	#position += rigid_balls[0].position
 	
 	# get current positions of outer balls
 	# and update path.curve
 	
-	var last_point : Vector2 = rigid_balls[-1].position
-	var current_point : Vector2 = rigid_balls[1].position
-	var next_point : Vector2 = rigid_balls[2].position
+	var center_position : Vector2 = rigid_balls[0].position
+	
+	var last_point : Vector2 = rigid_balls[-1].position - center_position
+	var current_point : Vector2 = rigid_balls[1].position - center_position
+	var next_point : Vector2 = rigid_balls[2].position - center_position
 	
 	last_point += points_min_distance * last_point.normalized()
 	current_point += points_min_distance * current_point.normalized()
@@ -168,7 +176,7 @@ func _process(delta: float) -> void:
 		
 		last_point = current_point
 		current_point = next_point
-		next_point = rigid_balls[i].position
+		next_point = rigid_balls[i].position - center_position
 		
 		next_point += points_min_distance * next_point.normalized()
 		
@@ -180,7 +188,7 @@ func _process(delta: float) -> void:
 	
 	last_point = current_point
 	current_point = next_point
-	next_point = rigid_balls[1].position
+	next_point = rigid_balls[1].position - center_position
 	
 	next_point += points_min_distance * next_point.normalized()
 	

@@ -5,7 +5,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g4v7s"]
 size = Vector2(990, 171)
 
-[node name="SoftBodyTestWorld" type="Node2D" unique_id=1490522529]
+[node name="SoftBodyTestWorld" type="Node2D" unique_id=533491060]
 
 [node name="StaticBody2D2" type="StaticBody2D" parent="." unique_id=1528803531]
 position = Vector2(285, 358)
@@ -24,4 +24,3 @@ rotation = 0.45879126
 shape = SubResource("RectangleShape2D_g4v7s")
 
 [node name="ProceduralSoftBall" parent="." unique_id=1210104278 instance=ExtResource("1_gkiwi")]
-position = Vector2(81, 52)
