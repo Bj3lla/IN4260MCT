@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://064eticklvju"]
+
+[ext_resource type="Script" uid="uid://c8ms2wu5upa52" path="res://soft_body_sim/rigid_ball.gd" id="1_dq6r6"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_g4v7s"]
+radius = 30.0
+
+[node name="RigidBall" type="RigidBody2D" unique_id=394060542]
+script = ExtResource("1_dq6r6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1488459390]
+shape = SubResource("CircleShape2D_g4v7s")

@@ -41,6 +41,7 @@ func _ready() -> void:
 	_add_key_action("dive", KEY_SPACE)
 	_add_key_action("calibrate", KEY_C)
 	_add_key_action("restart", KEY_R)
+	_add_key_action("swap_ball", KEY_B)
 	var err := _udp.bind(port)
 	if err != OK:
 		push_error("AccelInput: could not bind UDP port %d (error %d)" % [port, err])

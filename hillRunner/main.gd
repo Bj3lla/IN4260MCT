@@ -3,9 +3,13 @@ extends Node2D
 
 const Terrain := preload("res://terrain.gd")
 const Ball := preload("res://ball.gd")
+const SoftPlayer := preload("res://soft_player.gd")
+
+## Which player to spawn. Press B in game to swap (kept across restarts).
+static var use_soft_ball := false
 
 var terrain: Terrain
-var ball: Ball
+var ball  ## Ball (rigid) or SoftPlayer (squishy); both have position, linear_velocity and landed
 var cam: Camera2D
 var hud: Label
 var dive_bar: ProgressBar
@@ -21,7 +25,7 @@ func _ready() -> void:
 	terrain = Terrain.new()
 	add_child(terrain)
 
-	ball = Ball.new()
+	ball = SoftPlayer.new() if use_soft_ball else Ball.new()
 	ball.position = Vector2(0, terrain.height_at(0) - 80)
 	add_child(ball)
 	start_x = ball.position.x
@@ -71,9 +75,13 @@ func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("restart"):
 		get_tree().reload_current_scene()
 		return
+	if Input.is_action_just_pressed("swap_ball"):
+		use_soft_ball = not use_soft_ball
+		get_tree().reload_current_scene()
+		return
 
 	# Camera: lead the ball horizontally, zoom out the higher it flies.
-	var height := terrain.base_y - ball.position.y
+	var height: float = terrain.base_y - ball.position.y
 	var target_zoom := clampf(0.85 - height / 3000.0, 0.22, 0.85)
 	var z := lerpf(cam.zoom.x, target_zoom, 1.0 - exp(-3.0 * delta))
 	cam.zoom = Vector2(z, z)
@@ -81,13 +89,13 @@ func _process(delta: float) -> void:
 	cam.position = cam.position.lerp(target, 1.0 - exp(-8.0 * delta))
 	terrain.update_view(cam.position.x)
 
-	var dist := (ball.position.x - start_x) / 100.0
+	var dist: float = (ball.position.x - start_x) / 100.0
 	best = maxf(best, dist)
 	var dev := "device connected" if AccelInput.connected else "no device (hold SPACE)"
 	if AccelInput.is_calibrating():
 		dev = "calibrating... hold still"
-	hud.text = "Distance: %d m\nSpeed: %d\nInput: %s\n[C] calibrate   [R] restart" % [
-		int(best), int(ball.linear_velocity.length()), dev]
+	hud.text = "Distance: %d m\nSpeed: %d\nInput: %s\n[C] calibrate   [R] restart   [B] ball: %s" % [
+		int(best), int(ball.linear_velocity.length()), dev, "soft" if use_soft_ball else "rigid"]
 	dive_bar.value = AccelInput.dive
 	landing_timer -= delta
 	landing_label.modulate.a = clampf(landing_timer / 0.4, 0.0, 1.0)

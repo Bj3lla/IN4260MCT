@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://du6ac0k36qgjt"]
+
+[ext_resource type="Script" uid="uid://cnufxc1etuv6y" path="res://soft_body_sim/soft_ball.gd" id="1_t06fl"]
+
+[sub_resource type="Curve2D" id="Curve2D_t06fl"]
+
+[node name="SoftBall" type="Node" unique_id=1411061033]
+script = ExtResource("1_t06fl")
+
+[node name="Visuals" type="Node2D" parent="." unique_id=1337980332]
+
+[node name="Polygon2D" type="Polygon2D" parent="Visuals" unique_id=759563755]
+
+[node name="Path2D" type="Path2D" parent="Visuals" unique_id=1672332640]
+curve = SubResource("Curve2D_t06fl")
+
+[node name="Line2D" type="Line2D" parent="Visuals" unique_id=1488864001]
+closed = true
+width = 5.0
+default_color = Color(1, 0, 0, 1)

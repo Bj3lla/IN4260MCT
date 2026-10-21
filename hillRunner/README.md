@@ -6,12 +6,14 @@ Open the folder in Godot (Import → select `project.godot`) and press F5.
 - **Push/tilt your device** (or hold **SPACE**) to dive: gravity gets heavier.
 - Dive on downslopes to build speed, let go on upslopes to launch off the hill.
 - **C** recalibrates the device (hold it still in its neutral pose). **R** restarts.
+- **B** swaps between the rigid ball and the squishy soft-body ball.
 
 ## Files
 | File | What it does |
 |---|---|
 | `accel_input.gd` | Autoload. Listens on UDP port 4242, converts acceleration into a 0–1 `AccelInput.dive` value. Spacebar fallback. |
 | `ball.gd` | RigidBody2D player. `gravity_scale = 1 + 4 * dive`. |
+| `soft_player.gd` | Squishy player. Wraps `soft_body_sim/soft_ball.tscn` (from the `soft-body-sim` branch) and applies all forces to its center ball (`rigid_balls[0]`). Tuning exports at the top. |
 | `terrain.gd` | Endless cosine hills generated in chunks; hills grow taller with distance. |
 | `main.gd` | Builds the scene, camera (zooms out when you fly high) and HUD. |
 | `tools/accel_bridge.py` | Test sender: fake device (`sim`) or forward a serial device (`serial COM3`). |
