@@ -203,7 +203,8 @@ func _process(delta: float) -> void:
 	polygon.polygon = baked_points
 	line.points = baked_points
 	
-	
+func apply_force(force: Vector2, position : Vector2 = Vector2(0, 0)) -> void:
+	rigid_balls[0].apply_force(force, position)
 	
 	
 	
