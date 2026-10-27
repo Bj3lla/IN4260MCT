@@ -15,14 +15,14 @@ const REFERENCE_CAMERA_Y := 350.0
 const REFERENCE_ZOOM := 0.8
 
 const LAYERS := [
-	{ "scroll": Vector2(0.05, 0.1), "color": Color("#B9B4D1"), "screen_y": 0.80,
+	{ "scroll": Vector2(0.1, 0.1), "color": Color("#9290AB"), "screen_y": 0.80, 
 	  "width": Vector2(1500, 3000), "amp": Vector2(30, 60) },
-	{ "scroll": Vector2(0.1, 0.1), "color": Color("#A5A1BA"), "screen_y": 0.90,
+	{ "scroll": Vector2(0.2, 0.1), "color": Color("#A5A1BA"), "screen_y": 0.90, 
 	  "width": Vector2(1200, 2800), "amp": Vector2(40, 80) },
-	{ "scroll": Vector2(0.2, 0.1), "color": Color("#9290AB"), "screen_y": 1,
-	  "width": Vector2(1000, 1500), "amp": Vector2(50, 100) },
-	{ "scroll": Vector2(1.2, 1.0), "color": Color("#B4A88B"), "screen_y": 0.95,
-	  "width": Vector2(600, 1000), "amp": Vector2(20, 50), "z": 10 },
+	{ "scroll": Vector2(0.6, 0.1), "color": Color("#B9B4D1"), "screen_y": 1, 
+	  "width": Vector2(1000, 1200), "amp": Vector2(60, 80) },
+	{ "scroll": Vector2(1.3, 1.0), "color": Color("#DACFB4"), "screen_y": 0.9,
+	  "width": Vector2(300, 800), "amp": Vector2(20, 60), "z": 10 },
 ]
 
 
