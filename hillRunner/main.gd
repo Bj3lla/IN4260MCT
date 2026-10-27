@@ -17,8 +17,9 @@ var _best_m := 0.0
 
 func _ready() -> void:
 	RenderingServer.set_default_clear_color(SKY_COLOR)
-
-	add_child(Scenery.new())   # before the terrain: background draws behind it
+	
+	add_child(StarField.new()) # stars first since they are the furtherest back in thr background
+	add_child(Scenery.new())   # Scenery includes all background hills, must be before terrain
 
 	var terrain := Terrain.new()
 	add_child(terrain)
