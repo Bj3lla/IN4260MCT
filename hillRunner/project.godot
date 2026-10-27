@@ -15,7 +15,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="Hill Ball"
-run/main_scene="res://main.tscn"
+run/main_scene="uid://o0ssmkq37s8v"
 config/features=PackedStringArray("4.7")
 
 [autoload]
@@ -31,3 +31,7 @@ window/stretch/mode="canvas_items"
 [physics]
 
 common/physics_ticks_per_second=120
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
