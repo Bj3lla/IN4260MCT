@@ -1,6 +1,6 @@
 class_name PlayerTuning
 extends Resource
-## Responsibility: the gameplay numbers both balls share, so they play by the
+## Responsibility: shared tuning for soft ball and rigid ball, so they play by the
 ## same rules. Create a .tres from this to tweak in the inspector.
 
 @export var start_speed := 250.0

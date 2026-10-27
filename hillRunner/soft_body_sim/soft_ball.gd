@@ -9,15 +9,18 @@ extends Node
 ## The root must be a plain Node (not Node2D) so the points keep world coordinates.
 
 const POINT_SCENE := preload("res://soft_body_sim/soft_point.tscn")
+const CHARACTER_TEXTURE: Texture2D = preload(
+    "res://visuals/Ball character.svg"
+)
 
 @export_group("Shape")
 @export var ball_radius := 45.0      ## centre to the outer points
 @export var point_radius := 10.0     ## collision radius of each point
 @export var num_points := 10
 @export var stiffness := 1000.0      ## higher = less squishy
-@export var damping := 0.9
-@export var center_mass := 1.0
-@export var point_mass := 1.0
+@export var damping := 0.4
+@export var center_mass := 0.6
+@export var point_mass := 0.5
 ## Springs from each outer point to the one two steps away. Without them
 ## the ring can fold flat on hard landings and stay folded.
 @export var brace_springs := true
@@ -133,6 +136,7 @@ func _add_spring(a: RigidBody2D, b: RigidBody2D, length: float, k: float) -> voi
 
 
 func _build_outline() -> void:
+	_polygon.texture = CHARACTER_TEXTURE
 	_path.curve = Curve2D.new()   # own curve per ball: never shared between instances
 	for i in num_points + 1:      # +1: the last point repeats the first to close the loop
 		_path.curve.add_point(Vector2.ZERO)
@@ -161,6 +165,21 @@ func _process(_delta: float) -> void:
 	var baked := curve.get_baked_points()
 	_polygon.polygon = baked
 	_line.points = baked
+	
+	# Map the SVG texture across the current polygon bounds so that the Ball character visual follows the squishy physics.
+	var bounds := Rect2(baked[0], Vector2.ZERO)
+	for point in baked:
+		bounds = bounds.expand(point)
+
+	var texture_size := CHARACTER_TEXTURE.get_size()
+	var uvs := PackedVector2Array()
+
+	for point in baked:
+		var u := inverse_lerp(bounds.position.x, bounds.end.x, point.x)
+		var v := inverse_lerp(bounds.position.y, bounds.end.y, point.y)
+		uvs.append(Vector2(u * texture_size.x, v * texture_size.y))
+
+	_polygon.uv = uvs
 
 
 ## Ring point i relative to the centre, pushed outward by the point radius so the outline wraps the collision circles.

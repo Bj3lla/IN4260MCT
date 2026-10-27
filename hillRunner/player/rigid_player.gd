@@ -7,6 +7,9 @@ extends PlayerBase
 ## This node is a plain Node2D that follows the body, so it has the same shape
 ## as SoftPlayer. The body is top_level, so it ignores this node's transform.
 
+const CHARACTER_TEXTURE: Texture2D = preload(
+    "res://visuals/Ball character.svg"
+)
 @export var radius := 26.0
 @export var base_gravity := 1.0            ## gravity scale while touching the ground
 @export var slope_thrust_strength := 1200.0  ## px/s² along a steep slope at full dive
@@ -14,7 +17,6 @@ extends PlayerBase
 var _body: Body
 var _velocity := Vector2.ZERO   ## the velocity we intend; the solver may disturb the body's own
 var _spin := 0.0
-
 
 ## RigidBody2D that hands its integration step to the owning player.
 class Body extends RigidBody2D:
@@ -85,8 +87,22 @@ func _integrate(state: PhysicsDirectBodyState2D) -> void:
 
 
 func _draw() -> void:
-	draw_circle(Vector2.ZERO, radius, dive_color(AccelInput.dive))
-	draw_arc(Vector2.ZERO, radius, 0.0, TAU, 32, Color.WHITE, 3.0, true)
-	var dir := Vector2.from_angle(_spin)
-	draw_line(-dir * radius * 0.8, dir * radius * 0.8, Color(1, 1, 1, 0.8), 4.0, true)
-	draw_circle(dir.orthogonal() * radius * 0.45, 4.0, Color.WHITE)
+	var diameter := radius * 2.0
+
+	draw_texture_rect(
+		CHARACTER_TEXTURE,
+		Rect2(-radius, -radius, diameter, diameter),
+		false
+	)
+
+	# Keep a visible boundary around the physics circle.
+	draw_arc(
+		Vector2.ZERO,
+		radius,
+		0.0,
+		TAU,
+		48,
+		Color.WHITE,
+		2.0,
+		true
+	)

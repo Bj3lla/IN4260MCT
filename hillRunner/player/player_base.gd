@@ -7,8 +7,8 @@ extends Node2D
 
 signal landed(kind: String, change: float)
 
-const COLOR_REST := Color("#3b4a6b")
-const COLOR_DIVE := Color("#d94a4a")
+const COLOR_REST := Color("#EDE3C9")
+const COLOR_DIVE := Color("#FF87B6")
 const GREAT_LANDING := 0.6   ## slope fraction (0..1) from which a landing is "great"
 
 @export var tuning := PlayerTuning.new()

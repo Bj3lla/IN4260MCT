@@ -1,3 +1,8 @@
 [gd_scene format=3 uid="uid://cvgjpc6diu50x"]
 
-[node name="SoftPoint" type="Node2D" unique_id=133031875]
+[ext_resource type="Script" uid="uid://bgo4ky32gcvyn" path="res://soft_body_sim/soft_point.gd" id="1_qcdka"]
+
+[node name="SoftPoint" type="RigidBody2D" unique_id=1254591607]
+script = ExtResource("1_qcdka")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2146621535]

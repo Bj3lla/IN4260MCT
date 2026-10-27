@@ -1,3 +1,17 @@
 [gd_scene format=3 uid="uid://cfkl2xu3e5rse"]
 
-[node name="SoftBall" type="Node2D" unique_id=1595306459]
+[ext_resource type="Script" uid="uid://bl64ahh3afeq6" path="res://soft_body_sim/soft_ball.gd" id="1_t06fl"]
+
+[sub_resource type="Curve2D" id="Curve2D_t06fl"]
+
+[node name="SoftBall" type="Node" unique_id=968953430]
+script = ExtResource("1_t06fl")
+
+[node name="Visuals" type="Node2D" parent="." unique_id=1093640205]
+
+[node name="Polygon2D" type="Polygon2D" parent="Visuals" unique_id=310044059]
+
+[node name="Line2D" type="Line2D" parent="Visuals" unique_id=2127444156]
+
+[node name="Path2D" type="Path2D" parent="Visuals" unique_id=493074500]
+curve = SubResource("Curve2D_t06fl")
