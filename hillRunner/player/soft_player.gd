@@ -9,10 +9,10 @@ const SOFT_BALL_SCENE := preload("res://soft_body_sim/soft_ball.tscn")
 const SPEED_FLOOR_GAIN := 5.0    ## force per px/s below min_speed
 const OVERSPEED_GAIN := 10.0     ## force per px/s above max_speed
 
-@export var slope_thrust_strength := 700.0  ## px/s² along a steep slope at full dive
+@export var slope_thrust_strength := 2000.0  ## px/s² along a steep slope at full dive
 @export var dive_squash := 0.0     ## extra push into the ground while diving (above ~0.3 the ring tends to fold)
 @export var boost_time := 0.2      ## landing/launch kicks are spread over this many seconds
-@export var max_correction := 1500.0  ## px/s² cap on min/max speed pushes (keeps the body from tearing)
+@export var max_correction := 10000.0  ## px/s² cap on min/max speed pushes (keeps the body from tearing)
 
 var _soft: SoftBall
 var _boost_force := Vector2.ZERO

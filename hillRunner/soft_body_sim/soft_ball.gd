@@ -14,17 +14,17 @@ const CHARACTER_TEXTURE: Texture2D = preload(
 )
 
 @export_group("Shape")
-@export var ball_radius := 45.0      ## centre to the outer points
+@export var ball_radius := 20.0      ## centre to the outer points
 @export var point_radius := 10.0     ## collision radius of each point
 @export var num_points := 10
-@export var stiffness := 1000.0      ## higher = less squishy
+@export var stiffness := 1200.0      ## higher = less squishy
 @export var damping := 0.4
 @export var center_mass := 0.6
 @export var point_mass := 0.5
 ## Springs from each outer point to the one two steps away. Without them
 ## the ring can fold flat on hard landings and stay folded.
 @export var brace_springs := true
-@export var brace_stiffness := 1000.0
+@export var brace_stiffness := 3000.0
 
 @export_group("Outline")
 @export var outline_color := Color.WHITE
