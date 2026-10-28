@@ -2,26 +2,48 @@
 class_name ServerScript
 extends Node
 
-var server = UDPServer.new()
-var peers = []
+var udp := PacketPeerUDP.new()
+
+
+signal update_IMU(vectors : Array)
+signal update_HRT(hr : Array)
 
 # always uses the same port, might be fine
 func _ready():
-	server.listen(4242)
+	var error := udp.bind(4242)
+	if error == OK:
+		print("UDP bound successfully to port 4242")
+	else:
+		print("Failed to bind UDP socket: ", error)
 
 func _process(delta):
-	server.poll() # Important!
-	if server.is_connection_available():
-		var peer = server.take_connection()
-		var packet = peer.get_packet()
-		print("Accepted peer: %s:%s" % [peer.get_packet_ip(), peer.get_packet_port()])
-		print("Received data: %s" % [packet.get_string_from_utf8()])
-		# Reply so it knows we received the message.
-		peer.put_packet(packet)
-		# Keep a reference so we can keep contacting the remote peer.
-		peers.append(peer)
+	if udp.get_available_packet_count() > 0:
+		var packet : PackedByteArray = udp.get_packet()
+		unpack_data(packet)
 
-	for i in range(0, peers.size()):
-		var packet : PackedByteArray = peers[i].get_packet()
-		print(packet.get_string_from_utf8())
+# ugly, this might drop a lot of packages and make motions rough?
+func unpack_data(bytes: PackedByteArray):
+	var buffer := StreamPeerBuffer.new()
+	buffer.data_array = bytes
+	var string_bytes = buffer.get_data(3)
+	
+	if string_bytes[0] != OK:
+		print("Error reading string bytes")
+		return
+	var my_string = string_bytes[1].get_string_from_utf8()
+	if my_string == "HRT":
+		var current_hr = buffer.get_float()
+		var current_dv = buffer.get_float()
+		var signal_buf = [current_hr, current_dv]
+		print("HRT")
+		print(current_hr)
+		update_HRT.emit(signal_buf)
 		
+	elif  my_string == "IMU":
+		var buf : Array = []
+		for i in range(7):
+			buf.append(buffer.get_float())
+
+		print("IMU")
+		print(buf)
+		update_IMU.emit(buf)

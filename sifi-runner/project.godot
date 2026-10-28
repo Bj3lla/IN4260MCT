@@ -11,6 +11,7 @@ config_version=5
 [application]
 
 config/name="SIFI_Runner"
+run/main_scene="uid://bv0rsff7ie8he"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 
