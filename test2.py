@@ -121,7 +121,7 @@ def acquisition_loop(sb):
             send_buffer = [avgX, avgY, avgZ, avgQW, avgQX, avgQY, avgQZ]
 
             text_bytes = type_str.encode('utf-8')
-            struct_format = '<3s7F'
+            struct_format = '<3s7f'
             packed_buffer = struct.pack(struct_format,text_bytes,*send_buffer)
             sock.sendto(packed_buffer, (UDP_IP, UDP_PORT))
 
@@ -166,7 +166,7 @@ def acquisition_loop(sb):
                                 f"{current_hr_sd:4.1f} bpm")
 
                         hdr = "HRT"
-                        struct_format = "<3s2F"
+                        struct_format = "<3s2f"
                         text_bytes = hdr.encode('utf-8')
                         packed_data = struct.pack(struct_format,text_bytes,current_hr, current_hr_sd)
                         sock.sendto(packed_data, (UDP_IP, UDP_PORT))
