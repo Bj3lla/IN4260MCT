@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://cvry8v8jh1ty1"]
+
+[node name="Parallax2D" type="Parallax2D" unique_id=1440727188]
+visible = false
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1664419540]
+visible = false
