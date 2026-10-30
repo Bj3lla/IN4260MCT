@@ -1,7 +1,7 @@
 extends Node
-## Autoload "AccelInput". Responsibility: turn input into one 0..1 `dive`
-## value for the softball and rigid ball. Input comes from the wristband IMU,
-## and space / left mouse button is used as a fallback.
+## Autoload "AccelInput". Responsibility: turn input into one 0..1 value
+## for 'diving' the softball and rigid ball. Input comes from the wristband IMU.
+## Space / left mouse button is used as a input fallback.
 ##
 ## It creates one ServerScript (which owns UDP port 4242 and unpacks the packets)
 ## and listens to its update_IMU and update_HRT signals.
@@ -50,7 +50,7 @@ func _ready() -> void:
 	_server.update_IMU.connect(_on_imu)
 	_server.update_HRT.connect(_on_hrt)
 
-	calibrate()   # auto-calibrate on the first samples; press C to redo it
+	calibrate()   # calibrate on the first samples; press C to redo it
 
 
 ## Hold the wrist still in its neutral pose while this runs.
@@ -106,7 +106,7 @@ func _on_imu(vectors: Array) -> void:
 	device_dive = sign(tilt_deg) * clampf((abs(tilt_deg) - tilt_threshold_deg) / maxf(tilt_full_deg - tilt_threshold_deg, 0.001), 0.0, 1.0)
 
 
-## vectors = [heart_rate, deviation]
+## vectors = [heart_rate, deviation], right?
 func _on_hrt(vectors: Array) -> void:
 	if vectors.size() >= 2:
 		heart_rate = vectors[0]

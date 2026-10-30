@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cfkl2xu3e5rse"]
 
 [ext_resource type="Script" uid="uid://bl64ahh3afeq6" path="res://soft_body_sim/soft_ball.gd" id="1_t06fl"]
+[ext_resource type="AudioStream" uid="uid://kl7mrcvq1gt" path="res://audio/freesound_gamestudio-button-394464.mp3" id="2_54mm2"]
 
 [sub_resource type="Curve2D" id="Curve2D_t06fl"]
 
@@ -15,3 +16,6 @@ script = ExtResource("1_t06fl")
 
 [node name="Path2D" type="Path2D" parent="Visuals" unique_id=493074500]
 curve = SubResource("Curve2D_t06fl")
+
+[node name="sfx_jump" type="AudioStreamPlayer" parent="." unique_id=1507523434]
+stream = ExtResource("2_54mm2")
