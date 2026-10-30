@@ -12,7 +12,7 @@ extends Node
 @export_group("Tilt")
 ## Device axis the wrist rotates about when you "dive". Flip the sign if inverted,
 ## or pick another axis if the tilt shows up elsewhere.
-@export var tilt_axis := Vector3(1, 0, 0)
+@export var tilt_axis := Vector3(0, 1, 0)
 @export var tilt_threshold_deg := 15.0   ## tilt before diving starts
 @export var tilt_full_deg := 50.0        ## tilt that counts as a full dive
 
@@ -103,7 +103,7 @@ func _on_imu(vectors: Array) -> void:
 		return
 
 	tilt_deg = _tilt_degrees(orientation)
-	device_dive = clampf((tilt_deg - tilt_threshold_deg) / maxf(tilt_full_deg - tilt_threshold_deg, 0.001), 0.0, 1.0)
+	device_dive = sign(tilt_deg) * clampf((abs(tilt_deg) - tilt_threshold_deg) / maxf(tilt_full_deg - tilt_threshold_deg, 0.001), 0.0, 1.0)
 
 
 ## vectors = [heart_rate, deviation]
