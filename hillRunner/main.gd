@@ -1,6 +1,7 @@
 class_name Main
 extends Node2D
-## Responsibility: assemble the scene and handle restart / ball swap / back to menu.
+## Responsibility: assemble the scene, run the timed-mode clock and handle
+## restart / ball swap / back to menu.
 ## Everything else lives in its own class: Scenery, Terrain, the players,
 ## GameCamera and Hud.
 
@@ -19,11 +20,16 @@ const MAP_TILTS := [0.0, 0.08]   ## px of drop per px forward (0.08 ≈ 4.5°)
 static var ball_kind := Ball.RIGID
 ## Which map to play, chosen in the menu.
 static var map_kind := Map.CLASSIC
+## Timed mode: the run ends after ROUND_TIME and the distance goes on the Leaderboard.
+static var timed := false
+const ROUND_TIME := 60.0
 
 var _player: PlayerBase
 var _hud: Hud
 var _start_x := 0.0
 var _best_m := 0.0
+var _time_left := ROUND_TIME
+var _finished := false
 
 
 func _ready() -> void:
@@ -61,6 +67,8 @@ func _ready() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if _finished:
+		return   # the results screen handles input
 	if event.is_action_pressed("menu"):
 		get_tree().change_scene_to_file(MENU_SCENE)
 	elif event.is_action_pressed("restart"):
@@ -70,6 +78,22 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_tree().reload_current_scene()
 
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	_best_m = maxf(_best_m, (_player.position.x - _start_x) / PIXELS_PER_METER)
 	_hud.show_stats(_best_m, _player.linear_velocity.length(), BALL_NAMES[ball_kind])
+	if timed and not _finished:
+		_time_left = maxf(_time_left - delta, 0.0)
+		_hud.show_timer(_time_left)
+		if _time_left <= 0.0:
+			_finish()
+
+
+func _finish() -> void:
+	_finished = true
+	var results := Results.new()
+	results.meters = _best_m
+	results.ball_name = BALL_NAMES[ball_kind]
+	results.map_name = MAP_NAMES[map_kind]
+	results.play_again.connect(get_tree().reload_current_scene)
+	results.to_menu.connect(get_tree().change_scene_to_file.bind(MENU_SCENE))
+	add_child(results)

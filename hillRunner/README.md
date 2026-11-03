@@ -4,6 +4,9 @@ Open the folder in Godot (Import → select `project.godot`) and press F5.
 The game opens on a title screen where you pick a ball (Left/Right or mouse) and a map
 (Up/Down: **Classic**, or **Downhill**, where the whole course slopes gently down), then Enter to play.
 The Downhill slope is `MAP_TILTS` in `main.gd` (px of drop per px forward).
+Tab picks the mode: **Free play**, or **1 minute**, where the run stops after 60 s
+(`ROUND_TIME` in `main.gd`), you type a name and the distance goes on the leaderboard.
+The leaderboard only lives in memory, so it resets when the game is closed.
 
 ## Controls
 - **Push/tilt your device** (or hold **SPACE**) to dive: gravity gets heavier.
@@ -20,9 +23,9 @@ The Downhill slope is `MAP_TILTS` in `main.gd` (px of drop per px forward).
 | `player/jelly_player.gd` | Hybrid ball: moves exactly like the rigid ball, but drawn with a wobbly outline that flattens on the ground, squashes on landings and changes colour when diving. The wobble is visual only. |
 | `terrain.gd` | Endless cosine hills generated in chunks; hills grow taller with distance. |
 | `menu.gd` | Title screen (`menu.tscn`, the main scene): night-sky backdrop and the ball picker. |
+| `ui/` | `ui_style.gd` (shared menu look), `leaderboard.gd` (session scores), `results.gd` (time's-up screen). |
 | `main.gd` | Builds the scene, camera (zooms out when you fly high) and HUD. |
 | `tools/accel_bridge.py` | Test sender: fake device (`sim`) or forward a serial device (`serial COM3`). |
-| `tools/sifi_band_bridge.py` | Reads a SiFiBand (`pip install sifi-bridge-py`) and sends EMG, motion and orientation as JSON. `--sim` fakes a band. |
 
 ## Connecting your device
 The game listens for UDP packets on port **4242**, one sample per packet, either
@@ -31,7 +34,6 @@ The game listens for UDP packets on port **4242**, one sample per packet, either
 - **Device on Wi-Fi/network** (ESP32, phone app, etc.): send UDP to your PC's IP, port 4242.
 - **Device over USB serial** (Arduino, micro:bit…): print `x,y,z` lines and run
   `pip install pyserial` then `python tools/accel_bridge.py serial COM3` (or `/dev/ttyUSB0`).
-- **SiFiBand**: `pip install sifi-bridge-py` then `python tools/sifi_band_bridge.py` (add `--print` to see the values).
 - **No device yet**: `python tools/accel_bridge.py sim` sends a fake push every 1.5 s.
 
 The first 30 samples are used as the "rest" baseline, so keep the device still at startup.
