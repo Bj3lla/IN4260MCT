@@ -154,6 +154,7 @@ func _build_outline() -> void:
 
 func _process(_delta: float) -> void:
 	_label.text = str(AccelInput.dive)
+	
 	var curve := _path.curve
 	for i in num_points:
 		var cur := _outline_point(i)

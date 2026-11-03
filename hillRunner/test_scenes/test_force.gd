@@ -1,7 +1,7 @@
 extends Node2D
 
 @export var terrain_speed : float = 1.0
-@export var air_friction_constant = 0.05
+@export var air_friction_constant = 0.00005
 @export var ball_horizontal_force : float = -100.0
 
 const SOFT_BALL_SCENE := preload("res://soft_body_sim/soft_ball.tscn")
@@ -25,7 +25,7 @@ func _ready() -> void:
 	num_soft_ball_points = soft_ball.num_points
 
 func _process(delta: float) -> void:
-	var friction : Vector2 = air_friction_constant * soft_ball.get_center_velocity()
+	var friction : Vector2 = -air_friction_constant * soft_ball.get_center_velocity()
 	#terrain.position += Vector2(-terrain_speed, -1)
 	
 	if Input.is_action_just_pressed("boost"):

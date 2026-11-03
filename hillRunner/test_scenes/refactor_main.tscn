@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://dmxbd3xxt6mgx"]
+
+[ext_resource type="Script" uid="uid://b0ua2wndqo4hw" path="res://test_scenes/refactor_main.gd" id="1_ynv5o"]
+
+[node name="RefactorMain" type="Node2D" unique_id=854443169]
+script = ExtResource("1_ynv5o")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1135832229]
+
+[node name="Label" type="Label" parent="CanvasLayer" unique_id=877505380]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "example text"

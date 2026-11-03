@@ -6,6 +6,7 @@ extends Hills
 func _init() -> void:
 	has_collision = true
 	intro_hill = true
+	generate_coins = true
 	step = 12.0
 	base_y = 400.0
 	hill_width = Vector2(380.0, 700.0)

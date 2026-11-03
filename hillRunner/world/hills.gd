@@ -10,6 +10,8 @@ extends Node2D
 ##
 ## Defaults are tuned for a back ridge. Terrain overrides them for the main course.
 
+const COIN_SCENE = preload("res://collectabels/coin.tscn")
+
 @export_group("Shape")
 @export var chunk_width := 2048.0
 @export var step := 32.0                           ## px between points (~12 when colliding)
@@ -30,6 +32,7 @@ extends Node2D
 
 @export_group("Physics")
 @export var has_collision := false
+@export var generate_coins := false
 
 var _xs := PackedFloat32Array()
 var _ys := PackedFloat32Array()
@@ -102,6 +105,13 @@ func _build_chunk(index: int) -> Node2D:
 		top.append(Vector2(x, height_at(x)))
 		x += step
 	top.append(Vector2(x1, height_at(x1)))
+	
+	if generate_coins:
+		for i in range(100):
+			var coin_x = _rng.randf_range(x0, x1)
+			var coin = COIN_SCENE.instantiate()
+			coin.position = Vector2(coin_x, height_at(coin_x)+20) + position
+			get_parent().add_child(coin)
 
 	var poly := top.duplicate()
 	poly.append(Vector2(x1, base_y + depth))
