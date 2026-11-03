@@ -47,12 +47,12 @@ func _process(delta: float) -> void:
 	_landing.modulate.a = clampf(_landing_timer / FADE_TIME, 0.0, 1.0)
 
 
-func show_stats(distance_m: float, speed: float, soft_ball: bool) -> void:
+func show_stats(distance_m: float, speed: float, ball_name: String) -> void:
 	var device := "device connected" if AccelInput.connected else "no device (hold SPACE / mouse)"
 	if AccelInput.is_calibrating():
 		device = "calibrating... hold still"
-	_stats.text = "Distance: %d m\nSpeed: %d\nInput: %s\n[C] calibrate   [R] restart   [B] ball: %s" % [
-		int(distance_m), int(speed), device, "soft" if soft_ball else "rigid"]
+	_stats.text = "Distance: %d m\nSpeed: %d\nInput: %s\n[C] calibrate   [R] restart   [B] ball: %s   [Esc] menu" % [
+		int(distance_m), int(speed), device, ball_name]
 
 
 ## Connect to a player's `landed` signal.

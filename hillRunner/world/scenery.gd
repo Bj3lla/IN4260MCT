@@ -14,6 +14,10 @@ extends Node2D
 const REFERENCE_CAMERA_Y := 350.0
 const REFERENCE_ZOOM := 0.8
 
+## Tilt of the main course (see Hills.tilt). Set before add_child(). Each layer
+## gets its own tilt so it slopes along with the camera at its parallax speed.
+var tilt := 0.0
+
 const LAYERS := [
 	{ "scroll": Vector2(0.1, 0.1), "color": Color("#9290AB"), "screen_y": 0.80, 
 	  "width": Vector2(1500, 3000), "amp": Vector2(30, 60) },
@@ -40,6 +44,9 @@ func _make_layer(cfg: Dictionary) -> Parallax2D:
 	hills.start_amp = cfg["amp"]
 	hills.end_amp = cfg["amp"]
 	hills.base_y = _base_y_for(cfg["screen_y"], scroll.y)
+	# The layer sees the camera move scroll.x as far sideways and scroll.y as far
+	# down, so its slope has to be scaled by scroll.y / scroll.x to keep up.
+	hills.tilt = tilt * scroll.y / scroll.x
 
 	var layer := Parallax2D.new()
 	layer.scroll_scale = scroll

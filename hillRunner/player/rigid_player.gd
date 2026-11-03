@@ -17,6 +17,7 @@ const CHARACTER_TEXTURE: Texture2D = preload(
 var _body: Body
 var _velocity := Vector2.ZERO   ## the velocity we intend; the solver may disturb the body's own
 var _spin := 0.0
+var ground_normal := Vector2.UP   ## up-facing ground normal, valid while on_ground
 
 ## RigidBody2D that hands its integration step to the owning player.
 class Body extends RigidBody2D:
@@ -69,7 +70,8 @@ func _integrate(state: PhysicsDirectBodyState2D) -> void:
 	on_ground = summed.length_squared() > 0.0001
 
 	if on_ground:
-		var t := tangent_of(up_normal(summed))
+		ground_normal = up_normal(summed)
+		var t := tangent_of(ground_normal)
 		var speed := v.length() * (1.0 + touch_down(t))
 		# Ice: keep all speed; only slope gravity and diving change it.
 		speed += (gravity * base_gravity * t.y + slope_thrust(t, dive, speed, slope_thrust_strength)) * dt

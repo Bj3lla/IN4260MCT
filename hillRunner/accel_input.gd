@@ -125,6 +125,7 @@ func _ensure_default_actions() -> void:
 	_add_action("calibrate", [_key(KEY_C)])
 	_add_action("restart", [_key(KEY_R)])
 	_add_action("swap_ball", [_key(KEY_B)])
+	_add_action("menu", [_key(KEY_ESCAPE)])
 
 
 func _key(code: Key) -> InputEventKey:

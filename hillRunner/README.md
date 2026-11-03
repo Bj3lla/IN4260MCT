@@ -1,12 +1,15 @@
 # Hill Ball — Tiny Wings-style game for Godot 4.3+
 
 Open the folder in Godot (Import → select `project.godot`) and press F5.
+The game opens on a title screen where you pick a ball (Left/Right or mouse) and a map
+(Up/Down: **Classic**, or **Downhill**, where the whole course slopes gently down), then Enter to play.
+The Downhill slope is `MAP_TILTS` in `main.gd` (px of drop per px forward).
 
 ## Controls
 - **Push/tilt your device** (or hold **SPACE**) to dive: gravity gets heavier.
 - Dive on downslopes to build speed, let go on upslopes to launch off the hill.
-- **C** recalibrates the device (hold it still in its neutral pose). **R** restarts.
-- **B** swaps between the rigid ball and the squishy soft-body ball.
+- **C** recalibrates the device (hold it still in its neutral pose). **R** restarts. **Esc** returns to the title screen.
+- **B** cycles between the rigid ball, the squishy soft-body ball and the jelly ball (rigid movement, soft look).
 
 ## Files
 | File | What it does |
@@ -14,9 +17,12 @@ Open the folder in Godot (Import → select `project.godot`) and press F5.
 | `accel_input.gd` | Autoload. Listens on UDP port 4242, converts acceleration into a 0–1 `AccelInput.dive` value. Spacebar fallback. |
 | `ball.gd` | RigidBody2D player. `gravity_scale = 1 + 4 * dive`. |
 | `soft_player.gd` | Squishy player. Wraps `soft_body_sim/soft_ball.tscn` (from the `soft-body-sim` branch) and applies all forces to its center ball (`rigid_balls[0]`). Tuning exports at the top. |
+| `player/jelly_player.gd` | Hybrid ball: moves exactly like the rigid ball, but drawn with a wobbly outline that flattens on the ground, squashes on landings and changes colour when diving. The wobble is visual only. |
 | `terrain.gd` | Endless cosine hills generated in chunks; hills grow taller with distance. |
+| `menu.gd` | Title screen (`menu.tscn`, the main scene): night-sky backdrop and the ball picker. |
 | `main.gd` | Builds the scene, camera (zooms out when you fly high) and HUD. |
 | `tools/accel_bridge.py` | Test sender: fake device (`sim`) or forward a serial device (`serial COM3`). |
+| `tools/sifi_band_bridge.py` | Reads a SiFiBand (`pip install sifi-bridge-py`) and sends EMG, motion and orientation as JSON. `--sim` fakes a band. |
 
 ## Connecting your device
 The game listens for UDP packets on port **4242**, one sample per packet, either
@@ -25,6 +31,7 @@ The game listens for UDP packets on port **4242**, one sample per packet, either
 - **Device on Wi-Fi/network** (ESP32, phone app, etc.): send UDP to your PC's IP, port 4242.
 - **Device over USB serial** (Arduino, micro:bit…): print `x,y,z` lines and run
   `pip install pyserial` then `python tools/accel_bridge.py serial COM3` (or `/dev/ttyUSB0`).
+- **SiFiBand**: `pip install sifi-bridge-py` then `python tools/sifi_band_bridge.py` (add `--print` to see the values).
 - **No device yet**: `python tools/accel_bridge.py sim` sends a fake push every 1.5 s.
 
 The first 30 samples are used as the "rest" baseline, so keep the device still at startup.

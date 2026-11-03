@@ -19,6 +19,9 @@ extends Node2D
 @export var end_amp := Vector2(30.0, 60.0)         ## equal to start_amp = no difficulty ramp
 @export var ramp_distance := 60000.0               ## px until hills reach end_amp
 @export var depth := 4000.0
+## How much the whole course slopes down to the right: px of drop per px of x.
+## 0 = level. The hills ride on this sloped baseline (see base_at).
+@export var tilt := 0.0
 ## Start with a valley behind x = 0 and a big peak at x = 0 to roll off.
 @export var intro_hill := false
 
@@ -41,12 +44,12 @@ var _peak_next := true
 func _ready() -> void:
 	_rng.randomize()
 	if intro_hill:
-		_xs.append(-900.0); _ys.append(base_y + 80.0)
-		_xs.append(0.0);    _ys.append(base_y - 280.0)
+		_xs.append(-900.0); _ys.append(base_at(-900.0) + 80.0)
+		_xs.append(0.0);    _ys.append(base_at(0.0) - 280.0)
 		_peak_next = false
 	else:
 		# Start far to the left so the screen is covered from the first frame.
-		_xs.append(-3000.0); _ys.append(base_y)
+		_xs.append(-3000.0); _ys.append(base_at(-3000.0))
 		_peak_next = true
 
 
@@ -54,6 +57,11 @@ func _process(_delta: float) -> void:
 	var to_local := get_global_transform_with_canvas().affine_inverse()
 	var size := get_viewport_rect().size
 	update_view((to_local * Vector2(0.0, size.y * 0.5)).x, (to_local * Vector2(size.x, size.y * 0.5)).x)
+
+
+## Baseline (middle height of the hills) at local x, including the tilt.
+func base_at(x: float) -> float:
+	return base_y + x * tilt
 
 
 ## Height of the path at local x.
@@ -86,8 +94,9 @@ func _ensure_keys(to_x: float) -> void:
 		var k := clampf(last_x / ramp_distance, 0.0, 1.0)
 		var amp := _rng.randf_range(lerpf(start_amp.x, end_amp.x, k), lerpf(start_amp.y, end_amp.y, k))
 		var w := _rng.randf_range(hill_width.x, hill_width.y)
+		var base := base_at(last_x + w)
 		_xs.append(last_x + w)
-		_ys.append(base_y - amp if _peak_next else base_y + amp * 0.6)
+		_ys.append(base - amp if _peak_next else base + amp * 0.6)
 		_peak_next = not _peak_next
 
 
@@ -104,8 +113,8 @@ func _build_chunk(index: int) -> Node2D:
 	top.append(Vector2(x1, height_at(x1)))
 
 	var poly := top.duplicate()
-	poly.append(Vector2(x1, base_y + depth))
-	poly.append(Vector2(x0, base_y + depth))
+	poly.append(Vector2(x1, base_at(x1) + depth))
+	poly.append(Vector2(x0, base_at(x0) + depth))
 
 	var holder: Node2D
 	if has_collision:
