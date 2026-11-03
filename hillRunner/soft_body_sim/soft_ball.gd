@@ -40,6 +40,8 @@ var total_mass := 0.0
 @onready var _polygon: Polygon2D = $Visuals/Polygon2D
 @onready var _line: Line2D = $Visuals/Line2D
 @onready var _path: Path2D = $Visuals/Path2D
+@onready var _camera : Camera2D = $Visuals/Camera2D
+@onready var _label : Label = $Visuals/Label
 
 
 func _ready() -> void:
@@ -53,12 +55,16 @@ func _ready() -> void:
 func apply_force(force: Vector2) -> void:
 	center.apply_central_force(force)
 
+func get_gravity() -> Vector2:
+	return center.get_gravity()
 
 func set_velocity(v: Vector2) -> void:
 	center.linear_velocity = v
 	for p in ring:
 		p.linear_velocity = v
 
+func get_center_velocity() -> Vector2:
+	return center.linear_velocity
 
 func average_velocity() -> Vector2:
 	var sum := center.linear_velocity
@@ -147,6 +153,7 @@ func _build_outline() -> void:
 # --- outline -----------------------------------------------------------------
 
 func _process(_delta: float) -> void:
+	_label.text = str(AccelInput.dive)
 	var curve := _path.curve
 	for i in num_points:
 		var cur := _outline_point(i)

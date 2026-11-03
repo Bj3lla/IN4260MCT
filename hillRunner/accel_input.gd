@@ -76,6 +76,7 @@ func _process(delta: float) -> void:
 
 	var target := 1.0 if Input.is_action_pressed("dive") else device_dive
 	dive = lerpf(dive, target, 1.0 - exp(-smoothing * delta))
+	#dive = target
 
 	if debug_print and connected:
 		_debug_timer -= delta

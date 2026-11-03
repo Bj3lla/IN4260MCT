@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://bmnhpilqnegh0"]
+
+[ext_resource type="Script" uid="uid://cgh7dud7imbi6" path="res://test_scenes/test_angle.gd" id="1_bw5hs"]
+
+[node name="TestAngle" type="Node2D" unique_id=1042920919]
+script = ExtResource("1_bw5hs")
+
+[node name="Label" type="Label" parent="." unique_id=1050099126]
+offset_left = 512.0
+offset_top = 178.0
+offset_right = 808.0
+offset_bottom = 351.0
+text = "empty label"

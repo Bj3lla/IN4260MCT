@@ -9,9 +9,17 @@ script = ExtResource("1_t06fl")
 
 [node name="Visuals" type="Node2D" parent="." unique_id=1093640205]
 
+[node name="Camera2D" type="Camera2D" parent="Visuals" unique_id=692572934]
+
 [node name="Polygon2D" type="Polygon2D" parent="Visuals" unique_id=310044059]
 
 [node name="Line2D" type="Line2D" parent="Visuals" unique_id=2127444156]
 
 [node name="Path2D" type="Path2D" parent="Visuals" unique_id=493074500]
 curve = SubResource("Curve2D_t06fl")
+
+[node name="Label" type="Label" parent="Visuals" unique_id=1442957761]
+offset_left = 412.0
+offset_top = 236.0
+offset_right = 516.0
+offset_bottom = 289.0

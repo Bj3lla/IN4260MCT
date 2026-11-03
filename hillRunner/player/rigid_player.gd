@@ -78,7 +78,10 @@ func _integrate(state: PhysicsDirectBodyState2D) -> void:
 	else:
 		if advance_air(dt, v, dive):
 			v.y *= tuning.launch_boost
-		v.y += gravity * (tuning.air_gravity + tuning.air_dive_gravity * dive) * dt
+		if dive > 0:
+			v.y += gravity * (tuning.air_gravity + tuning.air_dive_gravity * dive) * dt
+		else:
+			v.y += gravity * tuning.air_dive_gravity * (1.0 - dive*0.9) * dt
 		v.x = maxf(v.x, tuning.min_speed)
 		v = v.limit_length(tuning.max_speed)
 
