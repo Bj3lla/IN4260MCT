@@ -41,6 +41,8 @@ var total_mass := 0.0
 @onready var _line: Line2D = $Visuals/Line2D
 @onready var _path: Path2D = $Visuals/Path2D
 
+## sound effects  
+@onready var sfx_jump = $sfx_jump
 
 func _ready() -> void:
 	_build_points()
@@ -49,6 +51,9 @@ func _ready() -> void:
 
 
 # --- API for the player ------------------------------------------------------
+
+func play_sfx_jump() -> void:
+	sfx_jump.play()
 
 func apply_force(force: Vector2) -> void:
 	center.apply_central_force(force)

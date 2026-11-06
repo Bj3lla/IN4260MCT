@@ -50,6 +50,7 @@ func _physics_process(delta: float) -> void:
 			force += t * _floor_push(tuning.min_speed - speed) * mass
 	else:
 		if advance_air(delta, v, dive):
+			_soft.play_sfx_jump()
 			_boost(Vector2(0.0, v.y * (tuning.launch_boost - 1.0)))
 		# Every point already feels 1x gravity; add the difference.
 		force.y += gravity * (tuning.air_gravity - 1.0 + tuning.air_dive_gravity * dive) * mass
