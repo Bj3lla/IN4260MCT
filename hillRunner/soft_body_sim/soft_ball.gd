@@ -59,6 +59,11 @@ func set_velocity(v: Vector2) -> void:
 	for p in ring:
 		p.linear_velocity = v
 
+func get_center_velocity() -> Vector2:
+	return center.linear_velocity
+
+func get_gravity() -> Vector2:
+	return center.get_gravity()
 
 func average_velocity() -> Vector2:
 	var sum := center.linear_velocity
