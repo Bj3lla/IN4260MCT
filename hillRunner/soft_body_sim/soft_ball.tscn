@@ -17,5 +17,7 @@ script = ExtResource("1_t06fl")
 [node name="Path2D" type="Path2D" parent="Visuals" unique_id=493074500]
 curve = SubResource("Curve2D_t06fl")
 
+[node name="Camera2D" type="Camera2D" parent="Visuals" unique_id=737460698]
+
 [node name="sfx_jump" type="AudioStreamPlayer" parent="." unique_id=1507523434]
 stream = ExtResource("2_54mm2")
