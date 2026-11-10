@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://bndu6nue07vvy"]
+
+[ext_resource type="Script" uid="uid://ohk7w6pxji5k" path="res://refactor/world/track/collectable.gd" id="1_ds2qf"]
+
+[node name="Collectable" type="Node2D" unique_id=571736361]
+script = ExtResource("1_ds2qf")

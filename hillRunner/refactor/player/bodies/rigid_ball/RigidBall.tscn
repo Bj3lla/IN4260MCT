@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://drc7o7tmtj2dk"]
+
+[ext_resource type="Script" uid="uid://bu3blees876id" path="res://refactor/player/bodies/rigid_ball/rigid_ball.gd" id="1_n1nas"]
+[ext_resource type="Texture2D" uid="uid://cg5ngj5pbak7y" path="res://refactor/visuals/Ball character.svg" id="2_ypyej"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_n1nas"]
+radius = 27.018513
+
+[node name="RigidBall" type="RigidBody2D" unique_id=1125522285]
+script = ExtResource("1_n1nas")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=349287204]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=341581160]
+texture = ExtResource("2_ypyej")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1707614476]
+shape = SubResource("CircleShape2D_n1nas")

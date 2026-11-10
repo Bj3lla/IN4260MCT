@@ -1,0 +1,2 @@
+class_name RigidBall
+extends RigidBody2D

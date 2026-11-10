@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://c26rlchj4r4vj"]
+
+[ext_resource type="Script" uid="uid://bshmgqsseit5y" path="res://refactor/player/bodies/soft_ball/soft_ball.gd" id="1_2wpb2"]
+
+[node name="SoftBall" type="Node2D" unique_id=698999026]
+script = ExtResource("1_2wpb2")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=819112538]

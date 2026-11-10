@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://3ay6jx1wta7l"]
+
+[ext_resource type="Script" uid="uid://bt71vy8787o4e" path="res://refactor/main_menu/main_menu.gd" id="1_xquma"]
+
+[node name="MainMenu" type="Node2D" unique_id=722506892]
+script = ExtResource("1_xquma")

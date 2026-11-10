@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://c7bddolsvpdn6"]
+
+[ext_resource type="Script" uid="uid://dg2gs1oa21r8" path="res://refactor/player/player.gd" id="1_44asp"]
+
+[node name="Player" type="Node2D" unique_id=1066178521]
+script = ExtResource("1_44asp")
