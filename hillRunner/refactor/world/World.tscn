@@ -1,9 +1,6 @@
 [gd_scene format=3 uid="uid://bld8vtqu5dfrc"]
 
 [ext_resource type="Script" uid="uid://bq5mb6rnpa0lw" path="res://refactor/world/world.gd" id="1_csdqy"]
-[ext_resource type="PackedScene" uid="uid://drc7o7tmtj2dk" path="res://refactor/player/bodies/rigid_ball/RigidBall.tscn" id="2_f1em0"]
 
 [node name="World" type="Node2D" unique_id=859967973]
 script = ExtResource("1_csdqy")
-
-[node name="RigidBall" parent="." unique_id=1125522285 instance=ExtResource("2_f1em0")]

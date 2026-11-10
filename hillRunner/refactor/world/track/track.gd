@@ -1,5 +1,5 @@
 class_name Track
-extends Hills
+extends HillsR
 ## Responsibility: the main course preset. Collidable, sand-coloured with a
 ## light border, and hills that grow with distance.
 
