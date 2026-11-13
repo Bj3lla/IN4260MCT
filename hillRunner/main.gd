@@ -75,7 +75,7 @@ func _process(_delta: float) -> void:
 	#_hud.show_stats(_best_m, _player.linear_velocity.length(), use_soft_ball)
 	friction = soft_ball.get_center_velocity() * air_friction_constant
 	dive = AccelInput.dive
-	total_force = friction + soft_ball.get_gravity() * dive * num_soft_ball_points + ball_driving_force
+	total_force = -friction + soft_ball.get_gravity() * dive * num_soft_ball_points + ball_driving_force
 	
 	if Input.is_action_just_pressed("boost"):
 		total_force += boost_vector
