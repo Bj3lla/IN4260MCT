@@ -16,6 +16,13 @@ extends Node
 @export var tilt_threshold_deg := 15.0   ## tilt before diving starts
 @export var tilt_full_deg := 50.0        ## tilt that counts as a full dive
 
+@export_group("Rotation")
+
+@export var rotation_axis := Vector3(1,0,0)
+@export var rotation_threshold_deg := 10.0
+@export var rotation_full_deg := 90.0 
+
+
 @export_group("Response")
 @export var smoothing := 15.0            ## higher = snappier, lower = smoother
 @export var timeout := 0.5               ## seconds without IMU packets = disconnected
@@ -26,10 +33,13 @@ extends Node
 var orientation := Quaternion.IDENTITY          ## last orientation
 var baseline_orientation := Quaternion.IDENTITY ## rest orientation
 var tilt_deg := 0.0                             ## current tilt about tilt_axis
+var rotation_deg := 0.0
 var heart_rate := 0.0
 var hr_deviation := 0.0
 var dive := 0.0            ## final smoothed value, 0..1
 var device_dive := 0.0     ## unsmoothed value from the device only
+var device_rotation := 0.0
+var rotation := 0.0
 var connected := false
 
 var _server: ServerScript
@@ -70,18 +80,22 @@ func _process(delta: float) -> void:
 	connected = now - _last_packet_s < timeout
 	if not connected:
 		device_dive = 0.0
+		device_rotation = 0.0
 
 	if Input.is_action_just_pressed("calibrate"):
 		calibrate()
 
 	var target := 1.0 if Input.is_action_pressed("dive") else device_dive
+	var target_rotation := 1.0 if Input.is_action_just_pressed("boost") else device_rotation
 	dive = lerpf(dive, target, 1.0 - exp(-smoothing * delta))
+	rotation = lerpf(rotation,target_rotation, 1.0 - exp(-smoothing * delta))
 
 	if debug_print and connected:
 		_debug_timer -= delta
 		if _debug_timer <= 0.0:
 			_debug_timer = 0.25
 			print("tilt %6.1f deg   device_dive %.2f   dive %.2f" % [tilt_deg, device_dive, dive])
+
 
 
 # --- wristband data ----------------------------------------------------------
@@ -102,8 +116,15 @@ func _on_imu(vectors: Array) -> void:
 		device_dive = 0.0
 		return
 
+
 	tilt_deg = _tilt_degrees(orientation)
+	rotation_deg = _rotation_degrees(orientation)
+
 	device_dive = sign(tilt_deg) * clampf((abs(tilt_deg) - tilt_threshold_deg) / maxf(tilt_full_deg - tilt_threshold_deg, 0.001), 0.0, 1.0)
+	
+	#TODO: FIX
+	# Wrist rotation, check DISCORD NOTES
+	device_rotation = sign(rotation_deg) * clampf((abs(rotation_deg) - rotation_threshold_deg) / maxf(rotation_full_deg - rotation_threshold_deg, 0.001),0.0,1.0)
 
 
 ## vectors = [heart_rate, deviation], right?
@@ -133,6 +154,14 @@ func _tilt_degrees(q: Quaternion) -> float:
 		rel = -rel   # take the short way round
 	var rotation_vector := rel.get_axis() * rel.get_angle()
 	return rad_to_deg(rotation_vector.dot(tilt_axis.normalized()))
+	
+func _rotation_degrees(q: Quaternion) -> float:
+	var rel := (baseline_orientation.inverse() * q).normalized()
+	if rel.w < 0.0:
+		rel = -rel
+
+	var rotation_vector := rel.get_axis() * rel.get_angle()
+	return rad_to_deg(rotation_vector.dot(rotation_axis.normalized()))
 
 
 # --- keyboard / mouse fallback -----------------------------------------------

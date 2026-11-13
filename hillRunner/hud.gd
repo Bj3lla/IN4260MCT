@@ -12,6 +12,7 @@ const FADE_TIME := 0.4
 
 var _stats: Label
 var _dive_bar: ProgressBar
+var _rotate_bar: ProgressBar
 var _landing: Label
 var _landing_timer := 0.0
 
@@ -29,6 +30,13 @@ func _ready() -> void:
 	_dive_bar.max_value = 1.0
 	_dive_bar.show_percentage = false
 	add_child(_dive_bar)
+	
+	_rotate_bar = ProgressBar.new()
+	_rotate_bar.position = Vector2(20, 100)
+	_rotate_bar.size = Vector2(240, 22)
+	_rotate_bar.max_value = 1.0
+	_rotate_bar.show_percentage = false
+	add_child(_rotate_bar)
 
 	# Anchored across the top, text centred, so it is centred regardless of tree timing.
 	_landing = Label.new()
@@ -43,6 +51,7 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	_dive_bar.value = AccelInput.dive
+	_rotate_bar.value = AccelInput.rotation
 	_landing_timer -= delta
 	_landing.modulate.a = clampf(_landing_timer / FADE_TIME, 0.0, 1.0)
 
