@@ -1,6 +1,6 @@
 class_name Player
 extends Node2D
-## Responsibility: owns the active ball. Spawns a RigidBall or SoftBall at this
+## Spawns a RigidBall or SoftBall at this
 ## node's position and swaps between them with B, continuing from where the old
 ## ball was. The balls read InputProcessing.dive themselves. Restarting the run
 ## is the game's job (main.gd).

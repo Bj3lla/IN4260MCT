@@ -3,7 +3,6 @@ extends Node2D
 ## Everything else lives in its own class: StarField, Scenery, Track, Player
 ## (which owns the ball and the ball swap), Camera and Hud.
 
-const SKY_COLOR := Color("#3a3166")
 const PIXELS_PER_METER := 100.0
 
 var _player: Player
@@ -13,12 +12,9 @@ var _best_m := 0.0
 
 
 func _ready() -> void:
-	RenderingServer.set_default_clear_color(SKY_COLOR)
-	add_child(StarField.new())   # stars first: furthest back in the background
-	add_child(Scenery.new())     # background hills, must come before the track
-
-	var track := Track.new()
-	add_child(track)
+	var world := World.new()
+	add_child(world)             # builds the track in its _ready(), so world.track is set from here on
+	var track := world.track
 
 	_player = Player.new()
 	_player.position = Vector2(0.0, track.height_at(0.0) - 80.0)   # the ball spawns here

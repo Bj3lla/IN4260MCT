@@ -1,14 +1,14 @@
 class_name World
 extends Node2D
 #builds world by using Track, Scenery and StarField
-
-var RigidBallScene = preload("res://refactor/player/bodies/rigid_ball/rigid_ball.tscn")
+const SKY_COLOR := Color("#3a3166")
+var track: Track
 
 func _ready() -> void:
-	add_child(Scenery.new()) 
+	RenderingServer.set_default_clear_color(SKY_COLOR)
 	add_child(StarField.new())
+	add_child(Scenery.new()) 
 	
-	var track := Track.new()
+	track = Track.new()
 	add_child(track)
 	
-	add_child(RigidBallScene.instantiate())

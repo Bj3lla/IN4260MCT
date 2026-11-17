@@ -1,6 +1,6 @@
 class_name Camera
 extends Camera2D
-## Responsibility: follow the ball. Leads it horizontally, keeps the view
+## Follows the ball. Leads it horizontally, keeps the view
 ## between the ball and the ground, and zooms out the higher it flies.
 ## Runs in the physics step so it stays in sync with the ball.
 

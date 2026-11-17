@@ -1,7 +1,7 @@
 class_name Hills
 extends Node2D
 
-## Responsibility: an endless path of hills and valleys.
+## An endless path of hills and valleys.
 ##
 ## Alternating peak / valley key points are joined with cosine curves, so the
 ## slope is flat at every top and bottom. Chunks of the path are built just

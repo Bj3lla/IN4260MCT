@@ -1,6 +1,6 @@
 class_name Hud
 extends CanvasLayer
-## Responsibility: on-screen text and the dive bar. Display only: it is told
+## On-screen text and the dive bar. Display only: it is told
 ## the stats and landing events, and reads the dive value from InputProcessing.
 
 const TEXT_COLOR := Color("#FFF4D8")
