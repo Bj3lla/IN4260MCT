@@ -6,10 +6,9 @@ extends PlayerPhysics
 ## from PlayerPhysics, and pushes the centre point; the springs carry the force
 ## to the outer points.
 ##
-## Scene: a PlayerPhysics root with this script and a child AudioStreamPlayer
+## Scene: a Node2D root with this script and a child AudioStreamPlayer
 ## named sfx_jump. The points, springs and visuals are built in code.
 
-const CHARACTER_TEXTURE: Texture2D = preload("res://refactor/visuals/Ball character.svg")
 const SPEED_FLOOR_GAIN := 5.0    ## force per px/s below min_speed
 const OVERSPEED_GAIN := 10.0     ## force per px/s above max_speed
 
@@ -47,7 +46,7 @@ var _boost_left := 0.0
 ## breaks the transform chain, so they stay in world coordinates while this
 ## node moves to follow the centre point.
 var _body := Node.new()
-var _ice := PhysicsMaterial.new()      # slippery: no friction (bounce is 0 by default)
+var _ice := ice()                      # slippery: no friction, no bounce
 var _curve := Curve2D.new()
 var _polygon := Polygon2D.new()
 var _line := Line2D.new()
@@ -56,7 +55,6 @@ var _line := Line2D.new()
 
 
 func _ready() -> void:
-	_ice.friction = 0.0
 	add_child(_body)
 
 	center = _make_point(global_position, center_mass)
@@ -78,13 +76,13 @@ func _ready() -> void:
 	_body.add_child(_line)
 
 	for p in [center] + ring:
-		p.linear_velocity = Vector2(tuning.start_speed, 0.0)
+		p.linear_velocity = Vector2(start_speed, 0.0)
 
 
 # --- gameplay ----------------------------------------------------------------
 
 func _physics_process(delta: float) -> void:
-	var dive := AccelInput.dive
+	var dive: float = InputProcessing.dive
 	var v := _average_velocity()
 	linear_velocity = v
 	global_position = center.global_position
@@ -102,18 +100,18 @@ func _physics_process(delta: float) -> void:
 			_boost(t * speed * change)
 		force += t * slope_thrust(t, dive, speed, slope_thrust_strength) * total_mass
 		force += -n * gravity * dive_squash * dive * total_mass
-		if speed < tuning.min_speed:
-			force += t * _floor_push(tuning.min_speed - speed) * total_mass
+		if speed < min_speed:
+			force += t * _floor_push(min_speed - speed) * total_mass
 	else:
 		if advance_air(delta, v, dive):
 			sfx_jump.play()
-			_boost(Vector2(0.0, v.y * (tuning.launch_boost - 1.0)))
+			_boost(Vector2(0.0, v.y * (launch_boost - 1.0)))
 		# Every point already feels 1x gravity; add the difference.
-		force.y += gravity * (tuning.air_gravity - 1.0 + tuning.air_dive_gravity * dive) * total_mass
-		if v.x < tuning.min_speed:
-			force.x += _floor_push(tuning.min_speed - v.x) * total_mass
+		force.y += gravity * (air_gravity - 1.0 + air_dive_gravity * dive) * total_mass
+		if v.x < min_speed:
+			force.x += _floor_push(min_speed - v.x) * total_mass
 
-	var over := v.length() - tuning.max_speed
+	var over := v.length() - max_speed
 	if over > 0.0:
 		force -= v.normalized() * minf(over * OVERSPEED_GAIN, max_correction) * total_mass
 
