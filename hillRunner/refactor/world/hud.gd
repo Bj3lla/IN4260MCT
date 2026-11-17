@@ -26,6 +26,7 @@ func _ready() -> void:
 	_dive_bar = ProgressBar.new()
 	_dive_bar.position = Vector2(20, 130)
 	_dive_bar.size = Vector2(240, 22)
+	_dive_bar.min_value = -1.0
 	_dive_bar.max_value = 1.0
 	_dive_bar.show_percentage = false
 	add_child(_dive_bar)
@@ -42,14 +43,14 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
-	_dive_bar.value = AccelInput.dive
+	_dive_bar.value = InputProcessing.dive
 	_landing_timer -= delta
 	_landing.modulate.a = clampf(_landing_timer / FADE_TIME, 0.0, 1.0)
 
 
 func show_stats(distance_m: float, speed: float, soft_ball: bool) -> void:
-	var device := "device connected" if AccelInput.connected else "no device (hold SPACE / mouse)"
-	if AccelInput.is_calibrating():
+	var device := "device connected" if InputProcessing.connected else "no device (hold SPACE / mouse)"
+	if InputProcessing.is_calibrating():
 		device = "calibrating... hold still"
 	_stats.text = "Distance: %d m\nSpeed: %d\nInput: %s\n[C] calibrate   [R] restart   [B] ball: %s" % [
 		int(distance_m), int(speed), device, "soft" if soft_ball else "rigid"]
