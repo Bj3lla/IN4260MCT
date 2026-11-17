@@ -5,7 +5,7 @@ extends Camera2D
 ## Runs in the physics step so it stays in sync with the ball.
 
 @export var target: PlayerPhysics
-@export var terrain: Track               ## only used for its base_y
+@export var track: Track               ## only used for its base_y
 @export var max_zoom := 0.85
 @export var min_zoom := 0.22
 @export var zoom_out_per_px := 1.0 / 3000.0   ## zoom lost per px above the ground baseline
@@ -31,10 +31,10 @@ func _physics_process(delta: float) -> void:
 
 
 func _target_zoom() -> float:
-	var height := terrain.base_y - target.position.y
+	var height := track.base_y - target.global_position.y
 	return clampf(max_zoom - height * zoom_out_per_px, min_zoom, max_zoom)
 
 
 func _target_position(z: float) -> Vector2:
-	return Vector2(target.position.x + look_ahead / z,
-			lerpf(target.position.y, terrain.base_y, ground_bias))
+	return Vector2(target.global_position.x + look_ahead / z,
+			lerpf(target.global_position.y, track.base_y, ground_bias))

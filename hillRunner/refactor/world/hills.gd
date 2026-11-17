@@ -9,7 +9,7 @@ extends Node2D
 ## collidable main course and for non-colliding parallax layers: it works out
 ## which local x range is visible through its own canvas transform.
 ##
-## Defaults are tuned for a back ridge. Terrain overrides them for the main course.
+## Defaults are tuned for a back ridge. Track overrides them for the main course.
 
 @export_group("Shape")
 @export var chunk_width := 2048.0

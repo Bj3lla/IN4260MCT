@@ -3,7 +3,7 @@ extends Node2D
 
 ## Responsibility: the parallax ridges. Three background layers (back to
 ## front) and one foreground layer, each an endless Hills generator inside a
-## Parallax2D. Add this node BEFORE the terrain so the background draws
+## Parallax2D. Add this node BEFORE the track so the background draws
 ## behind it; the foreground uses a high z_index to draw over everything.
 ##
 ## `screen_y` is where the ridge's baseline sits on screen (0 = top, 1 = bottom)

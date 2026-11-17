@@ -6,8 +6,6 @@ extends PlayerPhysics
 ## from PlayerPhysics, and pushes the centre point; the springs carry the force
 ## to the outer points.
 ##
-## Scene: a Node2D root with this script and a child AudioStreamPlayer
-## named sfx_jump. The points, springs and visuals are built in code.
 
 const SPEED_FLOOR_GAIN := 5.0    ## force per px/s below min_speed
 const OVERSPEED_GAIN := 10.0     ## force per px/s above max_speed
@@ -51,8 +49,6 @@ var _curve := Curve2D.new()
 var _polygon := Polygon2D.new()
 var _line := Line2D.new()
 
-@onready var sfx_jump: AudioStreamPlayer = $sfx_jump
-
 
 func _ready() -> void:
 	add_child(_body)
@@ -87,7 +83,7 @@ func _physics_process(delta: float) -> void:
 	linear_velocity = v
 	global_position = center.global_position
 
-	var contacts := _terrain_normal()
+	var contacts := _track_normal()
 	on_ground = contacts.length_squared() > 0.0001
 
 	var force := Vector2.ZERO
@@ -104,7 +100,6 @@ func _physics_process(delta: float) -> void:
 			force += t * _floor_push(min_speed - speed) * total_mass
 	else:
 		if advance_air(delta, v, dive):
-			sfx_jump.play()
 			_boost(Vector2(0.0, v.y * (launch_boost - 1.0)))
 		# Every point already feels 1x gravity; add the difference.
 		force.y += gravity * (air_gravity - 1.0 + air_dive_gravity * dive) * total_mass
@@ -141,8 +136,8 @@ func _average_velocity() -> Vector2:
 
 
 ## Sum of contact normals of the outer points against anything that isn't
-## another soft point (so: the terrain). Zero when airborne.
-func _terrain_normal() -> Vector2:
+## another soft point (so: the track). Zero when airborne.
+func _track_normal() -> Vector2:
 	var summed := Vector2.ZERO
 	for p in ring:
 		var state := PhysicsServer2D.body_get_direct_state(p.get_rid())
@@ -167,7 +162,7 @@ func _make_point(pos: Vector2, mass: float) -> RigidBody2D:
 	p.physics_material_override = _ice
 	p.can_sleep = false
 	p.continuous_cd = RigidBody2D.CCD_MODE_CAST_SHAPE
-	p.contact_monitor = true          # needed by _terrain_normal()
+	p.contact_monitor = true          # needed by _track_normal()
 	p.max_contacts_reported = 2
 	_body.add_child(p)
 	return p

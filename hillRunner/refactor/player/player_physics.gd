@@ -41,7 +41,7 @@ var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity", 9
 
 
 ## Slippery physics material (no friction, no bounce) for the balls.
-## The terrain can use it too: PlayerPhysics.ice()
+## The track can use it too: PlayerPhysics.ice()
 static func ice() -> PhysicsMaterial:
 	var material := PhysicsMaterial.new()
 	material.friction = 0.0   # bounce is already 0 by default

@@ -1,5 +1,5 @@
 # ServerScript.gd
-#IMPORTANT! ServerScript should only be added once. Currently only in accel_input.gd
+#IMPORTANT! ServerScript should only be added once. Currently only in input_processing
 # If added more than one place multiple sockets will fight over the same port (4242). 
 class_name ServerScript 
 extends Node

@@ -1,7 +1,7 @@
 extends Node2D
 ## Assembles the scene and handle restart. Ball logic is kept in Player.gd
 ## Everything else lives in its own class: StarField, Scenery, Track, Player
-## (which owns the ball and the ball swap), GameCamera and Hud.
+## (which owns the ball and the ball swap), Camera and Hud.
 
 const SKY_COLOR := Color("#3a3166")
 const PIXELS_PER_METER := 100.0
