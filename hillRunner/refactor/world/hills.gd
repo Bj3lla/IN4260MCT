@@ -1,4 +1,4 @@
-class_name HillsR
+class_name Hills
 extends Node2D
 
 ## Responsibility: an endless path of hills and valleys.

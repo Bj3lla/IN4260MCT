@@ -1,5 +1,5 @@
-class_name RigidPlayer
-extends PlayerBase
+class_name RigidBall
+extends PlayerPhysics
 ## Responsibility: the hard ball. A RigidBody2D with a hand-written integrator
 ## so it feels like ice: sliding never loses speed to friction or collisions,
 ## only slope gravity, diving, landings and launches change it.
@@ -8,7 +8,7 @@ extends PlayerBase
 ## as SoftPlayer. The body is top_level, so it ignores this node's transform.
 
 const CHARACTER_TEXTURE: Texture2D = preload(
-    "res://visuals/Ball character.svg"
+    "res://refactor/visuals/Ball character.svg"
 )
 @export var radius := 26.0
 @export var base_gravity := 1.0            ## gravity scale while touching the ground

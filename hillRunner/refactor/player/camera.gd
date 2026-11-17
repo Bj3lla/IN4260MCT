@@ -4,8 +4,8 @@ extends Camera2D
 ## between the ball and the ground, and zooms out the higher it flies.
 ## Runs in the physics step so it stays in sync with the ball.
 
-@export var target: PlayerBase
-@export var terrain: Hills               ## only used for its base_y
+@export var target: PlayerPhysics
+@export var terrain: Track               ## only used for its base_y
 @export var max_zoom := 0.85
 @export var min_zoom := 0.22
 @export var zoom_out_per_px := 1.0 / 3000.0   ## zoom lost per px above the ground baseline

@@ -1,4 +1,4 @@
-class_name SceneryR
+class_name Scenery
 extends Node2D
 
 ## Responsibility: the parallax ridges. Three background layers (back to
@@ -35,7 +35,7 @@ func _ready() -> void:
 func _make_layer(cfg: Dictionary) -> Parallax2D:
 	var scroll: Vector2 = cfg["scroll"]
 
-	var hills := HillsR.new()
+	var hills := Hills.new()
 	hills.fill_color = cfg["color"]
 	hills.hill_width = cfg["width"]
 	hills.start_amp = cfg["amp"]

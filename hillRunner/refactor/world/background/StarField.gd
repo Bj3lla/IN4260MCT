@@ -1,7 +1,7 @@
 class_name StarField
 extends Parallax2D
 
-const STARS_PATH := "res://visuals/Quiet starfield.svg" 
+const STARS_PATH := "res://refactor/visuals/Quiet starfield.svg" 
 const SCROLL := Vector2(0.05, 0)
 const TILE_SCALE := 0.5 # raise if the stars are too small
 const REPEAT_Y := true
