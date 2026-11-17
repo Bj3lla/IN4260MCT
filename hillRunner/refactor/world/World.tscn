@@ -1,6 +1,19 @@
 [gd_scene format=3 uid="uid://bld8vtqu5dfrc"]
 
-[ext_resource type="Script" uid="uid://bq5mb6rnpa0lw" path="res://refactor/world/world.gd" id="1_csdqy"]
+[ext_resource type="Script" uid="uid://bjh6o6ip8p5qu" path="res://refactor/world/background/scenery.gd" id="2_udjy0"]
+[ext_resource type="Script" uid="uid://3d0em3bo37wy" path="res://refactor/world/background/star_field.gd" id="3_1vsgw"]
+[ext_resource type="Script" uid="uid://dk0n0osu1u2hb" path="res://refactor/world/track/track.gd" id="4_g1puf"]
 
 [node name="World" type="Node2D" unique_id=859967973]
-script = ExtResource("1_csdqy")
+
+[node name="SceneryR" type="Node2D" parent="." unique_id=148889987]
+script = ExtResource("2_udjy0")
+metadata/_custom_type_script = "uid://bjh6o6ip8p5qu"
+
+[node name="StarFieldR" type="Parallax2D" parent="." unique_id=2133711614]
+script = ExtResource("3_1vsgw")
+metadata/_custom_type_script = "uid://3d0em3bo37wy"
+
+[node name="Track" type="Node2D" parent="." unique_id=531102573]
+script = ExtResource("4_g1puf")
+metadata/_custom_type_script = "uid://dk0n0osu1u2hb"

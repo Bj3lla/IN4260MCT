@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://rkf6pddpw56t"]
+
+[ext_resource type="PackedScene" uid="uid://bld8vtqu5dfrc" path="res://refactor/world/World.tscn" id="1_yj8ey"]
+[ext_resource type="PackedScene" uid="uid://c7bddolsvpdn6" path="res://refactor/player/Player.tscn" id="2_u4roj"]
+
+[node name="Main" type="Node2D" unique_id=829867352]
+
+[node name="World" parent="." unique_id=859967973 instance=ExtResource("1_yj8ey")]
+
+[node name="Player" parent="." unique_id=1066178521 instance=ExtResource("2_u4roj")]
