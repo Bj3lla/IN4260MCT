@@ -4,17 +4,5 @@
 
 [node name="SoftBall" type="Node2D" unique_id=698999026]
 script = ExtResource("1_2wpb2")
-ball_radius = null
-point_radius = null
-num_points = null
-stiffness = null
-damping = null
-center_mass = null
-point_mass = null
-brace_springs = null
-brace_stiffness = null
-outline_color = null
-outline_width = null
-outline_curvature = null
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=819112538]

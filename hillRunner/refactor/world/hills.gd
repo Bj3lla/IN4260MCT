@@ -111,7 +111,9 @@ func _build_chunk(index: int) -> Node2D:
 	var holder: Node2D
 	if has_collision:
 		var body := StaticBody2D.new()
-		body.physics_material_override = Ice.material()
+		var ice := PhysicsMaterial.new()
+		ice.friction = 0.0   
+		body.physics_material_override = ice
 		var col := CollisionPolygon2D.new()
 		col.polygon = poly
 		body.add_child(col)

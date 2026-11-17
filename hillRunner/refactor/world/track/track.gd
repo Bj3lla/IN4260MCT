@@ -4,7 +4,7 @@ extends Hills
 ## light border, and hills that grow with distance.
 
 func _init() -> void:
-	has_collision = true
+	has_collision = true #main course has collision on
 	intro_hill = true
 	step = 12.0
 	base_y = 400.0

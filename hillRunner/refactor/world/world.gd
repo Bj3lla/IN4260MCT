@@ -5,7 +5,7 @@ extends Node2D
 var RigidBallScene = preload("res://refactor/player/bodies/rigid_ball/RigidBall.tscn")
 
 func _ready() -> void:
-	add_child(SceneryR.new()) 
+	add_child(Scenery.new()) 
 	add_child(StarField.new())
 	
 	var track := Track.new()
