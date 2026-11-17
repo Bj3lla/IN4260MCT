@@ -20,8 +20,7 @@ config/features=PackedStringArray("4.7")
 
 [autoload]
 
-AccelInput="*res://accel_input.gd"
-PlayerPhysics="*uid://cjcmco223mey1"
+InputProcessing="*uid://bxneixnwbjrje"
 
 [display]
 

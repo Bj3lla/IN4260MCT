@@ -32,8 +32,6 @@ const COLOR_REST := Color("#EDE3C9")
 const COLOR_DIVE := Color("#FF87B6")
 const GREAT_LANDING := 0.6   ## slope fraction (0..1) from which a landing is "great"
 
-@export var tuning := PlayerTuning.new()
-
 var linear_velocity := Vector2.ZERO   ## average velocity, kept up to date by the subclass
 var on_ground := false
 var air_time := 0.0
