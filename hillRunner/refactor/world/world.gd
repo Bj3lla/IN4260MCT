@@ -1,5 +1,6 @@
 class_name World
 extends Node2D
+#builds world by using Track, Scenery and StarField
 
 var RigidBallScene = preload("res://refactor/player/bodies/rigid_ball/RigidBall.tscn")
 
