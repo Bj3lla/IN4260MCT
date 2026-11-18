@@ -85,7 +85,7 @@ func _integrate(state: PhysicsDirectBodyState2D) -> void:
 
 
 func _draw() -> void:
-	draw_set_transform(Vector2.ZERO, _spin)   # roll the character with the ball
+	#draw_set_transform(Vector2.ZERO, _spin)   # roll the character with the ball
 	draw_texture_rect(CHARACTER_TEXTURE, Rect2(-radius, -radius, radius * 2.0, radius * 2.0), false)
 	# Keep a visible boundary around the physics circle.
 	draw_arc(Vector2.ZERO, radius, 0.0, TAU, 48, Color.WHITE, 2.0, true)
