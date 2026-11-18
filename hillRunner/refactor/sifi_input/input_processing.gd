@@ -1,13 +1,8 @@
 extends Node
-## Responsibility: turn input into one 0..1 value
-## for 'diving' the softball and rigid ball. Input comes from the wristband IMU.
-## Space / left mouse button is used as a input fallback.
-##
-## It creates one ServerScript (which owns UDP port 4242 and unpacks the packets)
-## and listens to its update_IMU and update_HRT signals.
-##
-## Diving works by tilting the wrist: hold the tilt to keep diving. The tilt is
-## measured relative to a calibrated rest pose (key C to recalibrate).
+## Turns wristband IMU input into smoothed dive and rotation values (-1..1) for
+## the softball and rigid ball, measured from a calibrated rest pose (C to recalibrate).
+## Creates a ServerScript (UDP port 4242) and listens to update_IMU and update_HRT.
+## Fallback keys: Space / left mouse = dive, R = restart, B = swap ball.
 
 @export_group("Tilt")
 ## Device axis the wrist rotates about when you "dive". Flip the sign if inverted,

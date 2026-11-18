@@ -1,6 +1,10 @@
 # ServerScript.gd
-#IMPORTANT! ServerScript should only be added once. Currently only in input_processing
-# If added more than one place multiple sockets will fight over the same port (4242). 
+## Receives wristband packets on UDP port 4242 and emits them as signals.
+## Each packet starts with a 3-byte tag followed by floats:
+##   "IMU" -> update_IMU([ax, ay, az, qw, qx, qy, qz])
+##   "HRT" -> update_HRT([heart_rate, deviation])
+## IMPORTANT: create only one instance (currently in input_processing), or the
+## sockets will fight over the port.
 class_name ServerScript 
 extends Node
 
