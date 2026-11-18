@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://bld8vtqu5dfrc" path="res://refactor/world/world.tscn" id="2_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://c7bddolsvpdn6" path="res://refactor/player/player.tscn" id="3_lquwl"]
 [ext_resource type="PackedScene" uid="uid://ds0rax7a7lao2" path="res://refactor/world/hud.tscn" id="4_7mycd"]
+[ext_resource type="Script" uid="uid://b3i6o6mn8fdee" path="res://refactor/player/camera.gd" id="5_lquwl"]
 
 [node name="Main" type="Node2D" unique_id=1248821971]
 script = ExtResource("1")
@@ -14,3 +15,8 @@ script = ExtResource("1")
 world = NodePath("../World")
 
 [node name="Hud" parent="." unique_id=1539501123 instance=ExtResource("4_7mycd")]
+
+[node name="Camera" type="Camera2D" parent="." unique_id=424284440 node_paths=PackedStringArray("world")]
+script = ExtResource("5_lquwl")
+world = NodePath("../World")
+metadata/_custom_type_script = "uid://b3i6o6mn8fdee"

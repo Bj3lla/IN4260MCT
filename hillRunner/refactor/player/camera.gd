@@ -4,8 +4,7 @@ extends Camera2D
 ## between the ball and the ground, and zooms out the higher it flies.
 ## Runs in the physics step so it stays in sync with the ball.
 
-@export var target: PlayerPhysics
-@export var track: Track               ## only used for its base_y
+@export var world: World
 @export var max_zoom := 0.85
 @export var min_zoom := 0.22
 @export var zoom_out_per_px := 1.0 / 3000.0   ## zoom lost per px above the ground baseline
@@ -14,14 +13,24 @@ extends Camera2D
 @export var look_ahead := 250.0          ## screen px ahead of the ball
 @export var ground_bias := 0.4           ## 0 = centre on the ball, 1 = centre on the ground baseline
 
+## Set at runtime by main.gd (the ball is spawned by Player). The first target snaps the
+## camera into place; later ones (ball swaps) are followed smoothly.
+var target: PlayerPhysics:
+	set(value):
+		target = value
+		if target and not _snapped and is_node_ready():
+			_snap_to_target()
+
+var track: Track
+var _snapped := false
 
 func _ready() -> void:
+	track = world.track
 	process_callback = Camera2D.CAMERA2D_PROCESS_PHYSICS
 	position_smoothing_enabled = false   # smoothing is done below
-	var z := _target_zoom()
-	zoom = Vector2(z, z)
-	position = _target_position(z)
 	make_current()
+	if target:
+		_snap_to_target()
 
 
 func _physics_process(delta: float) -> void:
@@ -29,6 +38,11 @@ func _physics_process(delta: float) -> void:
 	zoom = Vector2(z, z)
 	position = position.lerp(_target_position(z), 1.0 - exp(-follow_speed * delta))
 
+func _snap_to_target() -> void:
+	var z := _target_zoom()
+	zoom = Vector2(z,z)
+	position = _target_position(z)
+	_snapped = true
 
 func _target_zoom() -> float:
 	var height := track.base_y - target.global_position.y
