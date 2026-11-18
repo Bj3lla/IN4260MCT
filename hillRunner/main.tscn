@@ -1,6 +1,16 @@
 [gd_scene format=3 uid="uid://o0ssmkq37s8v"]
 
 [ext_resource type="Script" uid="uid://cm457ktyv3sdm" path="res://main.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://bld8vtqu5dfrc" path="res://refactor/world/world.tscn" id="2_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://c7bddolsvpdn6" path="res://refactor/player/player.tscn" id="3_lquwl"]
+[ext_resource type="PackedScene" uid="uid://ds0rax7a7lao2" path="res://refactor/world/hud.tscn" id="4_7mycd"]
 
 [node name="Main" type="Node2D" unique_id=1248821971]
 script = ExtResource("1")
+
+[node name="World" parent="." unique_id=859967973 instance=ExtResource("2_1bvp3")]
+
+[node name="Player" parent="." unique_id=1066178521 node_paths=PackedStringArray("world") instance=ExtResource("3_lquwl")]
+world = NodePath("../World")
+
+[node name="Hud" parent="." unique_id=1539501123 instance=ExtResource("4_7mycd")]

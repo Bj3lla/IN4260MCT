@@ -5,30 +5,24 @@ extends Node2D
 
 const PIXELS_PER_METER := 100.0
 
-var _player: Player
-var _hud: Hud
+@onready var _world : World = $World
+@onready var _player: Player = $Player
+@onready var _hud: Hud = $Hud
+
 var _start_x := 0.0
 var _best_m := 0.0
 
 
 func _ready() -> void:
-	var world := World.new()
-	add_child(world)             # builds the track in its _ready(), so world.track is set from here on
-	var track := world.track
 
-	_player = Player.new()
-	_player.position = Vector2(0.0, track.height_at(0.0) - 80.0)   # the ball spawns here
-	add_child(_player)
-	_start_x = _player.position.x
-
+	_start_x = _player.global_position.x
+	
 	var camera := Camera.new()
 	camera.target = _player.ball
-	camera.track = track
+	camera.track = _world.track
 	add_child(camera)
 	_player.ball_changed.connect(func(ball: PlayerPhysics) -> void: camera.target = ball)
 
-	_hud = Hud.new()
-	add_child(_hud)
 	_player.landed.connect(_hud.show_landing)
 
 

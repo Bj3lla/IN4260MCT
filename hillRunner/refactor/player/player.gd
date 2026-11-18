@@ -10,7 +10,9 @@ signal landed(kind: String, change: float)      ## relayed from whichever ball i
 
 const SOFT_BALL_SCENE := preload("res://refactor/player/bodies/soft_ball/soft_ball.tscn")
 const SWAP_LIFT := Vector2(0.0, -20.0)          ## spawn a swapped ball slightly higher, clear of the ground
+const SPAWN_HEIGHT := 80.0     ## ball spawns this far above the ground
 
+@export var world: World
 ## Which ball to spawn. Static, so it is kept across restarts (scene reloads).
 static var use_soft_ball := false
 
@@ -18,6 +20,7 @@ var ball: PlayerPhysics
 
 
 func _ready() -> void:
+	global_position.y = world.track.height_at(global_position.x) - SPAWN_HEIGHT
 	_spawn(global_position)
 
 

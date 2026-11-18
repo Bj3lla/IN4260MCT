@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://ds0rax7a7lao2"]
+
+[ext_resource type="Script" uid="uid://clj45bwxlytuf" path="res://refactor/world/hud.gd" id="1_r80jf"]
+
+[node name="Hud" type="CanvasLayer" unique_id=462781252]
+script = ExtResource("1_r80jf")
