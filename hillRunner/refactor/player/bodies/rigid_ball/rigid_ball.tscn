@@ -9,8 +9,6 @@ radius = 27.018513
 [node name="RigidBall" type="RigidBody2D" unique_id=1125522285]
 script = ExtResource("1_n1nas")
 
-[node name="Camera2D" type="Camera2D" parent="." unique_id=349287204]
-
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=341581160]
 texture = ExtResource("2_ypyej")
 

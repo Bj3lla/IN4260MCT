@@ -4,7 +4,7 @@ extends Camera2D
 ## between the ball and the ground, and zooms out the higher it flies.
 ## Runs in the physics step so it stays in sync with the ball.
 
-@export var world: World
+@export var track: Track  
 @export var max_zoom := 0.85
 @export var min_zoom := 0.22
 @export var zoom_out_per_px := 1.0 / 3000.0   ## zoom lost per px above the ground baseline
@@ -21,11 +21,9 @@ var target: PlayerPhysics:
 		if target and not _snapped and is_node_ready():
 			_snap_to_target()
 
-var track: Track
 var _snapped := false
 
 func _ready() -> void:
-	track = world.track
 	process_callback = Camera2D.CAMERA2D_PROCESS_PHYSICS
 	position_smoothing_enabled = false   # smoothing is done below
 	make_current()

@@ -3,8 +3,8 @@ extends Node2D
 ## best distance (in meters) for the Hud, and reloads the scene on restart (R).
 
 const PIXELS_PER_METER := 100.0
+const SKY_COLOR := Color("#3a3166")
 
-@onready var _world : World = $World
 @onready var _player: Player = $Player
 @onready var _hud: Hud = $Hud
 @onready var _camera: Camera = $Camera
@@ -14,6 +14,7 @@ var _best_m := 0.0
 
 
 func _ready() -> void:
+	RenderingServer.set_default_clear_color(SKY_COLOR)
 	_start_x = _player.global_position.x #where the run starts
 	
 	_camera.target = _player.ball #camera follows the ball
