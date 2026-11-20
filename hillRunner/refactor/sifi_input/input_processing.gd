@@ -24,11 +24,13 @@ extends Node
 ## Print tilt / dive a few times per second to find the right axis and sign.
 @export var debug_print := true # turn off when debugging and tuning is done :D
 
+signal heart_rate_change(new_bpm: float) #for the music
+
 var orientation := Quaternion.IDENTITY          ## last orientation
 var baseline_orientation := Quaternion.IDENTITY ## rest orientation
 var tilt_deg := 0.0                             ## current tilt about tilt_axis
 var rotation_deg := 0.0
-var heart_rate := 0.0
+var heart_rate := 80.0
 var hr_deviation := 0.0
 var dive := 0.0            ## final smoothed value, 0..1
 var device_dive := 0.0     ## unsmoothed value from the device only
@@ -120,8 +122,14 @@ func _on_imu(vectors: Array) -> void:
 ## vectors = [heart_rate, deviation], right?
 func _on_hrt(vectors: Array) -> void:
 	if vectors.size() >= 2:
-		heart_rate = vectors[0]
+		var new_heart_rate: float = vectors[0]
 		hr_deviation = vectors[1]
+		
+		#check that heartrate is reasonable
+		if new_heart_rate > 30.0:
+			heart_rate = new_heart_rate
+			heart_rate_change.emit(heart_rate)
+		else: print("Can't adjust music BPM since heartrate < 30 BPM")
 
 
 func _accumulate_calibration(q: Quaternion) -> void:
