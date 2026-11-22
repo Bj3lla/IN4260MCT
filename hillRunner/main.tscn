@@ -39,7 +39,7 @@ script = ExtResource("5_lquwl")
 track = NodePath("../World/Track")
 metadata/_custom_type_script = "uid://b3i6o6mn8fdee"
 
-[node name="Music" type="AudioStreamPlayer2D" parent="." unique_id=2095607654]
+[node name="Music" type="AudioStreamPlayer" parent="." unique_id=2103267257]
 stream = ExtResource("6_272bh")
 autoplay = true
 script = ExtResource("6_7mycd")

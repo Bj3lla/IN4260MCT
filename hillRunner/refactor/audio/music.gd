@@ -1,4 +1,4 @@
-extends AudioStreamPlayer2D
+extends AudioStreamPlayer
 
 @export var base_bpm: float = 90.0 #important! Must match the audio files BPM in the inspector
 @export var smoothing_speed: float = 3.0 #how fast music adapts to heart rate, higher = faster

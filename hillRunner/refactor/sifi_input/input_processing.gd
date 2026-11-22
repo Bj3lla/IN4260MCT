@@ -119,7 +119,7 @@ func _on_imu(vectors: Array) -> void:
 	# Wrist rotation, check DISCORD NOTES
 	device_rotation = sign(rotation_deg) * clampf((abs(rotation_deg) - rotation_threshold_deg) / maxf(rotation_full_deg - rotation_threshold_deg, 0.001),0.0,1.0)
 
-## vectors = [heart_rate, deviation], right?
+## hr = [heart_rate, deviation], right?
 func _on_hrt(hr: Array) -> void:
 	if hr.size() >= 2:
 		var new_heart_rate: float = hr[0]
