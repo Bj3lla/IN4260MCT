@@ -42,6 +42,7 @@ metadata/_custom_type_script = "uid://b3i6o6mn8fdee"
 [node name="Music" type="AudioStreamPlayer" parent="." unique_id=2103267257]
 stream = ExtResource("6_272bh")
 autoplay = true
+bus = &"Music"
 script = ExtResource("6_7mycd")
 
 [node name="Swoosh" type="AudioStreamPlayer" parent="." unique_id=438078403 node_paths=PackedStringArray("player")]
