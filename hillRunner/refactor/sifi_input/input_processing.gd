@@ -24,8 +24,6 @@ extends Node
 ## Print tilt / dive a few times per second to find the right axis and sign.
 @export var debug_print := true # turn off when debugging and tuning is done :D
 
-signal heart_rate_change(new_bpm: float) #for the music
-
 var orientation := Quaternion.IDENTITY          ## last orientation
 var baseline_orientation := Quaternion.IDENTITY ## rest orientation
 var tilt_deg := 0.0                             ## current tilt about tilt_axis
@@ -127,8 +125,7 @@ func _on_hrt(hr: Array) -> void:
 		
 		#check that heartrate is reasonable
 		if new_heart_rate > 30.0:
-			heart_rate = new_heart_rate
-			heart_rate_change.emit(heart_rate)
+			heart_rate = new_heart_rate   #updates heart_rate whenever a package arrives
 		else: print("Can't adjust music BPM since heartrate < 30 BPM")
 
 

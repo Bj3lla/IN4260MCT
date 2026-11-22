@@ -5,18 +5,11 @@ extends AudioStreamPlayer
 
 @onready var _shift := AudioServer.get_bus_effect(AudioServer.get_bus_index(bus), 0) as AudioEffectPitchShift
 
-var _target_pitch: float = 1.0
-
-func _ready() -> void:
-	InputProcessing.heart_rate_change.connect(_on_heart_rate_change) #connect to global InputProcessing autoload signal
-	
-	if InputProcessing.heart_rate > 30.0: # sync to heart rate on startup
-		_on_heart_rate_change(InputProcessing.heart_rate)
-		pitch_scale = _target_pitch
 
 func _process(delta: float) -> void:
-	pitch_scale = lerpf(pitch_scale, _target_pitch, smoothing_speed * delta) #smooth glide to new BPM so big jumps in sensordata don't sound awful
-	#_shift.pitch_scale = 1.0 / pitch_scale #undo the key change, but keep the tempo change
-	
-func _on_heart_rate_change(new_bpm: float) -> void: # connect input_processing's heartrate signal to this function
-	_target_pitch = clampf(new_bpm / base_bpm, 0.5, 2.5)
+	var target_pitch := 1.0 #normal speed until real heart rate data arrives
+	if InputProcessing.heart_rate > 30.0:
+		target_pitch = clampf(InputProcessing.heart_rate / base_bpm, 0.25, 2.5)
+		
+	pitch_scale = lerpf(pitch_scale, target_pitch, smoothing_speed * delta) #smooth glide to new BPM so big jumps in sensordata don't sound awful
+	_shift.pitch_scale = 1.0 / pitch_scale #undo the key change, but keep the tempo change

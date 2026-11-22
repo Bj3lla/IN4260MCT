@@ -1,8 +1,8 @@
 extends AudioStreamPlayer
 
 @export var player: Player
-@export var great_landing: AudioStream #linked to sample in inspector
-@export var bad_landing: AudioStream #linked to sample in inspector
+@export var great_landing: AudioStream #linked to sample in inspector (Landing scene under main.tscn)
+@export var bad_landing: AudioStream #linked to sample in inspector (Landing scene under main.tscn)
 
 func _ready() -> void:
 	player.landed.connect(_on_landed) #connects 'landed signal' to function below
