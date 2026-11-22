@@ -6,7 +6,7 @@ extends Node2D
 ## is the game's job (main.gd).
 
 signal ball_changed(ball: PlayerPhysics)        ## e.g. for the camera to follow the new ball
-signal landed(kind: String, change: float)      ## relayed from whichever ball is active
+signal landed(kind: String, change: float)      ## relayed from whichever ball is active, kind kan be "bad", "good", or "great", change is speedchange
 
 const SOFT_BALL_SCENE := preload("res://refactor/player/bodies/soft_ball/soft_ball.tscn")
 const SWAP_LIFT := Vector2(0.0, -20.0)          ## spawn a swapped ball slightly higher, clear of the ground

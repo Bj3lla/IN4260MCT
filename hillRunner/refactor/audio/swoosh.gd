@@ -2,13 +2,12 @@ extends AudioStreamPlayer
 ## Looping swoosh. Higher on screen = quieter/lower, lower on screen = louder/higher.
 ## Also gets louder the faster the ball moves.
 
-#can also change these variables in the inspector, but I like to have them here :)
 @export var player: Player
 @export var pitch_top := 0.5
 @export var pitch_bottom := 2
 @export var volume_top_db := -32.0
 @export var volume_bottom_db := -6.0
-@export var smoothing := 8.0 #higher = more snappy pitch and volume changess. lower = softer and slower
+@export var smoothing := 12.0 #higher = more snappy pitch and volume changess. lower = softer and slower
 
 
 func _ready() -> void:

@@ -1,4 +1,3 @@
-class_name Music
 extends AudioStreamPlayer2D
 
 @export var base_bpm: float = 90.0 #important! Must match the audio files BPM in the inspector
