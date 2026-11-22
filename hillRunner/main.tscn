@@ -7,6 +7,8 @@
 [ext_resource type="Script" uid="uid://b3i6o6mn8fdee" path="res://refactor/player/camera.gd" id="5_lquwl"]
 [ext_resource type="Script" uid="uid://b642djdgq533d" path="res://refactor/audio/music.gd" id="6_7mycd"]
 [ext_resource type="AudioStream" uid="uid://mxt5m05aelxr" path="res://refactor/audio/samples/freesound_community-quiz-game-music-loop-bpm-90-61070.mp3" id="6_272bh"]
+[ext_resource type="Script" uid="uid://cxi1bbvvmy7n6" path="res://refactor/audio/swoosh.gd" id="8_5vw27"]
+[ext_resource type="AudioStream" uid="uid://dxqey1l0n8lhd" path="res://refactor/audio/samples/freesound_community-underwater-white-noise-46423.mp3" id="8_kek77"]
 
 [node name="Main" type="Node2D" unique_id=1248821971]
 script = ExtResource("1")
@@ -27,5 +29,10 @@ metadata/_custom_type_script = "uid://b3i6o6mn8fdee"
 stream = ExtResource("6_272bh")
 autoplay = true
 script = ExtResource("6_7mycd")
+
+[node name="Swoosh" type="AudioStreamPlayer" parent="." unique_id=438078403 node_paths=PackedStringArray("player")]
+stream = ExtResource("8_kek77")
+script = ExtResource("8_5vw27")
+player = NodePath("../Player")
 
 [editable path="World"]

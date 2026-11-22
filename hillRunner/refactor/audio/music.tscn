@@ -1,6 +1,0 @@
-[gd_scene format=3 uid="uid://clycfk1o60lwf"]
-
-[ext_resource type="Script" uid="uid://b642djdgq533d" path="res://refactor/audio/music.gd" id="1_qldb0"]
-
-[node name="Music" type="Node2D" unique_id=979852654]
-script = ExtResource("1_qldb0")
