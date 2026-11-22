@@ -1,17 +1,18 @@
 extends AudioStreamPlayer
-## Looping swoosh. Higher on screen = quieter/lower, lower on screen = louder/higher.
-## Also gets louder the faster the ball moves.
+## A 'static' white noise sound is looping endlessly, and being controlled dynamically
+## by the players position and speed to create a 'swoosh' kind of sound. 
+## Higher on screen = quieter/lower, lower on screen = louder/higher. Also gets louder the faster the ball moves.
 
 @export var player: Player
 @export var pitch_top := 0.5
 @export var pitch_bottom := 2
-@export var volume_top_db := -32.0
-@export var volume_bottom_db := -6.0
+@export var volume_top_db := -32.0 #volume when ball is at the top of the screen
+@export var volume_bottom_db := 0 #volume when ball is at the bottom of the screen
 @export var smoothing := 12.0 #higher = more snappy pitch and volume changess. lower = softer and slower
 
 
 func _ready() -> void:
-	play() #important: loop must be enabled for the sample
+	play() #important: loop must be enabled for the "swoosh"/"white noise" sample
 
 
 func _process(delta: float) -> void:
