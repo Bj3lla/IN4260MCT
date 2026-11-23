@@ -43,7 +43,7 @@ func _ready() -> void:
 	
 	_dive_bar = _make_bar(GOOD_COLOR, Vector2(22, 200))
 	_dive_bar.min_value = -1.0
-	_dive_bar.position = Vector2(20, 20)
+	_dive_bar.position = Vector2(1220, 500)
 	_dive_bar.fill_mode = ProgressBar.FILL_TOP_TO_BOTTOM
 	
 	 # from boost-motion branch
