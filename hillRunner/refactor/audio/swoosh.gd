@@ -7,7 +7,7 @@ extends AudioStreamPlayer
 @export var pitch_top := 0.5
 @export var pitch_bottom := 2
 @export var volume_top_db := -32.0 #volume when ball is at the top of the screen
-@export var volume_bottom_db := 0 #volume when ball is at the bottom of the screen
+@export var volume_bottom_db := 12 #volume when ball is at the bottom of the screen
 @export var smoothing := 12.0 #higher = more snappy pitch and volume changess. lower = softer and slower
 
 
