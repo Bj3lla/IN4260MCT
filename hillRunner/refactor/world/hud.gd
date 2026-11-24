@@ -86,7 +86,13 @@ func show_landing(kind: String, change: float) -> void:
 	if not LANDING_TEXTS.has(kind):
 		return
 	_landing.text = LANDING_TEXTS[kind]
-	_landing.add_theme_color_override("font_color", GOOD_COLOR if change >= 0.0 else BAD_COLOR)
+	var color = TEXT_COLOR
+	match kind:
+		"great": color = GOOD_COLOR
+		"good": color = TEXT_COLOR
+		"bad": color = BAD_COLOR
+		_: return
+	_landing.add_theme_color_override("font_color", color)
 	_landing_change.text = "%+d%% speed" % roundi(change * 100.0)
 	_landing_timer = SHOW_TIME
 	
