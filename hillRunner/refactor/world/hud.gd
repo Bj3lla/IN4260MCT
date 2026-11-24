@@ -9,6 +9,7 @@ const GOOD_COLOR := Color("#60F4EA")
 const BAD_COLOR := Color("#FF5C7A")
 const GOLD_COLOR := Color("#FFD166")
 const DIVE_COLOR := Color("#FF87B6")
+const BOOST_COLOR := Color("#FBB14D")
 const MARGIN := 20
 const LANDING_TEXTS := {"great": "Great landing!", "good": "Nice landing", "bad": "Ouch, uphill"}
 const SHOW_TIME := 1.2
@@ -19,6 +20,7 @@ const BOOST_DRAIN := 0.1 # per second
 const ROTATE_ICON := preload("res://refactor/visuals/rotation_icon.svg")
 const DIVE_ICON := preload("res://refactor/visuals/vertical_tilt_icon.svg")
 const COLLECTABLE_ICON := preload("res://refactor/visuals/Collectable.svg")
+const BOOST_ICON := preload("res://refactor/visuals/boost.svg")
 
 var _stats: Label
 var _distance: Label
@@ -63,8 +65,8 @@ func _ready() -> void:
 	_rotate_bar.min_value = -1.0
 	#_rotate_bar.position = Vector2(20, 620)
 	
-	_boost_box = _make_box(HBoxContainer.new(), Vector2(20, 670), COLLECTABLE_ICON)
-	_boost_bar = _make_bar(GOLD_COLOR, Vector2(240, 22), _boost_box)
+	_boost_box = _make_box(HBoxContainer.new(), Vector2(20, 670), BOOST_ICON)
+	_boost_bar = _make_bar(BOOST_COLOR, Vector2(240, 22), _boost_box)
 	_boost_bar.value = 1.0 #starts from full
 	#_boost_bar.position = Vector2(20, 660)
 	
@@ -82,6 +84,9 @@ func _process(delta: float) -> void:
 		_boost_bar.value -= BOOST_DRAIN * delta #empties boost-bar whenever boost is used 
 		
 	_dive_bar.value = InputProcessing.dive
+	var dive := _dive_bar.value
+	var dive_fill: StyleBoxFlat = _dive_bar.get_theme_stylebox("fill")
+	dive_fill.bg_color = Color.WHITE.lerp(DIVE_COLOR if dive > 0.0 else GOOD_COLOR, absf(dive))
 	_rotate_bar.value = InputProcessing.rotation
 	_landing_timer -= delta
 	_landing_box.modulate.a = clampf(_landing_timer / FADE_TIME, 0.0, 1.0)
