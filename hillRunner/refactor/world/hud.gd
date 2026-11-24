@@ -8,13 +8,17 @@ const OUTLINE_COLOR := Color("#231C45")
 const GOOD_COLOR := Color("#60F4EA")
 const BAD_COLOR := Color("#FF5C7A")
 const GOLD_COLOR := Color("#FFD166")
-const BOOST_COLOR := Color("#FF6BDD")
+const DIVE_COLOR := Color("#FF87B6")
 const MARGIN := 20
 const LANDING_TEXTS := {"great": "Great landing!", "good": "Nice landing", "bad": "Ouch, uphill"}
 const SHOW_TIME := 1.2
 const FADE_TIME := 0.4
 const MAX_SPEED := 2000.0  # speed that fills the speedometer
 const BOOST_DRAIN := 0.1 # per second
+
+const ROTATE_ICON := preload("res://refactor/visuals/rotation_icon.svg")
+const DIVE_ICON := preload("res://refactor/visuals/vertical_tilt_icon.svg")
+const COLLECTABLE_ICON := preload("res://refactor/visuals/Collectable.svg")
 
 var _stats: Label
 var _distance: Label
@@ -23,6 +27,9 @@ var _rotate_bar: ProgressBar    #from boost-motion branch
 var _boost_bar: ProgressBar
 var _landing: Label
 var _landing_change: Label
+var _dive_box: VBoxContainer
+var _rotate_box: HBoxContainer
+var _boost_box: HBoxContainer
 var _landing_box: VBoxContainer
 var _landing_timer := 0.0
 var _use_boost := false #this one needs to be updated from the boost method!
@@ -37,20 +44,6 @@ func _ready() -> void:
 	_distance.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT 
 	_distance.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT, Control.PRESET_MODE_KEEP_SIZE, MARGIN)
 	
-	_boost_bar = _make_bar(GOLD_COLOR, Vector2(240, 44))
-	_boost_bar.value = 1.0 #starts from full
-	_boost_bar.position = Vector2(20, 660)
-	
-	_dive_bar = _make_bar(GOOD_COLOR, Vector2(22, 200))
-	_dive_bar.min_value = -1.0
-	_dive_bar.position = Vector2(1220, 500)
-	_dive_bar.fill_mode = ProgressBar.FILL_TOP_TO_BOTTOM
-	
-	 # from boost-motion branch
-	_rotate_bar = _make_bar(GOLD_COLOR, Vector2(240, 22))
-	_rotate_bar.min_value = -1.0
-	_rotate_bar.position = Vector2(20, 620)
-	
 	_landing_box = VBoxContainer.new()
 	_landing_box.anchor_right = 1.0
 	_landing_box.offset_top = 40
@@ -62,6 +55,26 @@ func _ready() -> void:
 
 	_landing_change = _make_label(20, _landing_box)
 	_landing_change.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	
+	 # from boost-motion branch
+	_rotate_box = _make_box(HBoxContainer.new(), Vector2(20, 630), ROTATE_ICON)
+	_rotate_bar = _make_bar(GOLD_COLOR, Vector2(240, 22), _rotate_box)
+	_rotate_box.move_child(_rotate_bar, 0) #moves icon to the right of the bar
+	_rotate_bar.min_value = -1.0
+	#_rotate_bar.position = Vector2(20, 620)
+	
+	_boost_box = _make_box(HBoxContainer.new(), Vector2(20, 670), COLLECTABLE_ICON)
+	_boost_bar = _make_bar(GOLD_COLOR, Vector2(240, 22), _boost_box)
+	_boost_bar.value = 1.0 #starts from full
+	#_boost_bar.position = Vector2(20, 660)
+	
+
+	_dive_box = _make_box(VBoxContainer.new(), Vector2(1220, 470), DIVE_ICON)
+	_dive_bar = _make_bar(DIVE_COLOR, Vector2(22, 200), _dive_box)
+	_boost_box.move_child(_boost_bar, 0) #moves icon to the right of the bar
+	_dive_bar.min_value = -1.0
+	#_dive_bar.position = Vector2(1220, 500)
+	_dive_bar.fill_mode = ProgressBar.FILL_TOP_TO_BOTTOM
 
 
 func _process(delta: float) -> void:
@@ -107,11 +120,12 @@ func _make_label(font_size: int, parent: Node) -> Label:
 	return label
 	
 	
-func _make_bar(color: Color, bar_size: Vector2) -> ProgressBar:
+func _make_bar(color: Color, bar_size: Vector2, parent: Node) -> ProgressBar:
 	var bar := ProgressBar.new()
-	bar.size = bar_size
+	bar.custom_minimum_size = bar_size
 	bar.max_value = 1.0
 	bar.show_percentage = false
+	bar.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	var background := StyleBoxFlat.new()
 	background.bg_color = OUTLINE_COLOR
 	background.set_corner_radius_all(8)
@@ -119,5 +133,16 @@ func _make_bar(color: Color, bar_size: Vector2) -> ProgressBar:
 	fill.bg_color = color
 	bar.add_theme_stylebox_override("background", background)
 	bar.add_theme_stylebox_override("fill", fill)
-	add_child(bar)
+	parent.add_child(bar)
 	return bar
+	
+func _make_box(box: BoxContainer, pos: Vector2, icon: Texture2D) -> BoxContainer:
+	box.position = pos
+	add_child(box)
+	var icon_rect := TextureRect.new()
+	icon_rect.texture = icon
+	icon_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	icon_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	icon_rect.custom_minimum_size = Vector2(36, 36) #changes icon size
+	box.add_child(icon_rect)
+	return box
