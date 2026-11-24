@@ -11,10 +11,12 @@ const SHOW_TIME := 1.2
 const FADE_TIME := 0.4
 
 var _stats: Label
+var _distance: Label
 var _dive_bar: ProgressBar
 var _rotate_bar: ProgressBar    #from boost-motion branch
 var _landing: Label
 var _landing_timer := 0.0
+var _result: Label
 
 
 func _ready() -> void:
@@ -23,6 +25,17 @@ func _ready() -> void:
 	_stats.add_theme_font_size_override("font_size", 22)
 	_stats.add_theme_color_override("font_color", TEXT_COLOR)
 	add_child(_stats)
+
+	# Anchored to the bottom-right corner, grows left and up as the text gets longer.
+	_distance = Label.new()
+	_distance.set_anchors_preset(Control.PRESET_BOTTOM_RIGHT)
+	_distance.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+	_distance.grow_vertical = Control.GROW_DIRECTION_BEGIN
+	_distance.offset_right = -24.0
+	_distance.offset_bottom = -16.0
+	_distance.add_theme_font_size_override("font_size", 56)
+	_distance.add_theme_color_override("font_color", TEXT_COLOR)
+	add_child(_distance)
 
 	_dive_bar = ProgressBar.new()
 	_dive_bar.position = Vector2(20, 130)
@@ -50,6 +63,16 @@ func _ready() -> void:
 	_landing.modulate.a = 0.0
 	add_child(_landing)
 
+	# Fills the screen, text centred. Shown when a timed run ends.
+	_result = Label.new()
+	_result.set_anchors_preset(Control.PRESET_FULL_RECT)
+	_result.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	_result.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_result.add_theme_font_size_override("font_size", 48)
+	_result.add_theme_color_override("font_color", TEXT_COLOR)
+	_result.hide()
+	add_child(_result)
+
 
 func _process(delta: float) -> void:
 	_dive_bar.value = InputProcessing.dive
@@ -58,12 +81,20 @@ func _process(delta: float) -> void:
 	_landing.modulate.a = clampf(_landing_timer / FADE_TIME, 0.0, 1.0)
 
 
-func show_stats(distance_m: float, speed: float, soft_ball: bool) -> void:
+## time_left is only shown in timed mode (pass -1 otherwise).
+func show_stats(distance_m: float, speed: float, soft_ball: bool, time_left := -1.0) -> void:
 	var device := "device connected" if InputProcessing.connected else "no device (hold SPACE / mouse)"
 	if InputProcessing.is_calibrating():
 		device = "calibrating... hold still"
-	_stats.text = "Distance: %d m\nSpeed: %d\nInput: %s\n[C] calibrate   [R] restart   [B] ball: %s" % [
-		int(distance_m), int(speed), device, "soft" if soft_ball else "rigid"]
+	var time := ("Time: %d s\n" % ceili(time_left)) if time_left >= 0.0 else ""
+	_stats.text = "%sSpeed: %d\nInput: %s\n[C] calibrate   [R] restart   [B] ball: %s   [Esc] menu" % [
+		time, int(speed), device, "soft" if soft_ball else "rigid"]
+	_distance.text = "%d m" % int(distance_m)
+
+
+func show_result(distance_m: float) -> void:
+	_result.text = "Time's up!\nYou got %d m\n\n[R] play again   [Esc] menu" % int(distance_m)
+	_result.show()
 
 
 ## Connect to a player's `landed` signal.

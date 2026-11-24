@@ -1,6 +1,113 @@
 [gd_scene format=3 uid="uid://3ay6jx1wta7l"]
 
 [ext_resource type="Script" uid="uid://bt71vy8787o4e" path="res://refactor/main_menu/main_menu.gd" id="1_11dv2"]
+[ext_resource type="PackedScene" uid="uid://bld8vtqu5dfrc" path="res://refactor/world/world.tscn" id="2_world"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_ball"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_mode"]
 
 [node name="MainMenu" type="Node2D" unique_id=722506892]
 script = ExtResource("1_11dv2")
+
+[node name="World" parent="." instance=ExtResource("2_world")]
+
+[node name="Camera" type="Camera2D" parent="."]
+position = Vector2(0, 350)
+zoom = Vector2(0.8, 0.8)
+
+[node name="Ui" type="CanvasLayer" parent="."]
+
+[node name="Box" type="VBoxContainer" parent="Ui"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+theme_override_constants/separation = 16
+
+[node name="Title" type="Label" parent="Ui/Box"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.95686275, 0.84705883, 1)
+theme_override_font_sizes/font_size = 96
+text = "Hill Ball"
+horizontal_alignment = 1
+
+[node name="Ball" type="HBoxContainer" parent="Ui/Box"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="Ui/Box/Ball"]
+custom_minimum_size = Vector2(110, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.95686275, 0.84705883, 1)
+theme_override_font_sizes/font_size = 26
+text = "Ball"
+
+[node name="Rigid" type="Button" parent="Ui/Box/Ball"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 26
+toggle_mode = true
+button_group = SubResource("ButtonGroup_ball")
+text = "Rigid"
+
+[node name="Soft" type="Button" parent="Ui/Box/Ball"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 26
+toggle_mode = true
+button_group = SubResource("ButtonGroup_ball")
+text = "Soft"
+
+[node name="Mode" type="HBoxContainer" parent="Ui/Box"]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="Ui/Box/Mode"]
+custom_minimum_size = Vector2(110, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.95686275, 0.84705883, 1)
+theme_override_font_sizes/font_size = 26
+text = "Mode"
+
+[node name="FreePlay" type="Button" parent="Ui/Box/Mode"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 26
+toggle_mode = true
+button_group = SubResource("ButtonGroup_mode")
+text = "Free play"
+
+[node name="Timed" type="Button" parent="Ui/Box/Mode"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 26
+toggle_mode = true
+button_group = SubResource("ButtonGroup_mode")
+text = "1 minute"
+
+[node name="Play" type="Button" parent="Ui/Box"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(240, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+focus_mode = 0
+theme_override_font_sizes/font_size = 34
+text = "Play"
+
+[node name="Hint" type="Label" parent="Ui/Box"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.95686275, 0.84705883, 0.7)
+theme_override_font_sizes/font_size = 18
+text = "Left / Right: ball   ·   Tab: mode   ·   Enter: play   ·   Esc in game returns here"
+horizontal_alignment = 1
