@@ -15,6 +15,7 @@ const GREAT_LANDING := 0.6   ## slope fraction (0..1) from which a landing is "g
 @export var start_speed := 250.0
 @export var min_speed := 180.0           ## never stall completely
 @export var max_speed := 1800.0
+@export var boost_accel := 600.0         ## forward acceleration while boosting
 
 @export_group("Air")
 @export var air_gravity := 0.8           ## gravity scale while flying (lower = floatier)
@@ -36,6 +37,7 @@ const GREAT_LANDING := 0.6   ## slope fraction (0..1) from which a landing is "g
 
 var linear_velocity := Vector2.ZERO   ## average velocity, kept up to date by the subclass
 var on_ground := false
+var boosting := false                 ## set by Player while boost is held and the bar isn't empty
 var air_time := 0.0
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity", 980.0)
 

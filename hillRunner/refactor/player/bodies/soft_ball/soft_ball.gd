@@ -106,6 +106,9 @@ func _physics_process(delta: float) -> void:
 		if v.x < min_speed:
 			force.x += _floor_push(min_speed - v.x) * total_mass
 
+	if boosting:
+		force += v.normalized() * boost_accel * total_mass
+
 	var over := v.length() - max_speed
 	if over > 0.0:
 		force -= v.normalized() * minf(over * OVERSPEED_GAIN, max_correction) * total_mass

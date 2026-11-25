@@ -12,6 +12,7 @@ const FADE_TIME := 0.4
 
 var _stats: Label
 var _distance: Label
+var _boost_bar: ProgressBar
 var _dive_bar: ProgressBar
 var _rotate_bar: ProgressBar    #from boost-motion branch
 var _landing: Label
@@ -36,6 +37,24 @@ func _ready() -> void:
 	_distance.add_theme_font_size_override("font_size", 56)
 	_distance.add_theme_color_override("font_color", TEXT_COLOR)
 	add_child(_distance)
+
+	# Anchored to the bottom-left corner, with its label just above it.
+	_boost_bar = ProgressBar.new()
+	_boost_bar.set_anchors_preset(Control.PRESET_BOTTOM_LEFT)
+	_boost_bar.offset_left = 24.0
+	_boost_bar.offset_right = 324.0
+	_boost_bar.offset_top = -52.0
+	_boost_bar.offset_bottom = -24.0
+	_boost_bar.max_value = 1.0
+	_boost_bar.show_percentage = false
+	add_child(_boost_bar)
+
+	var boost_label := Label.new()
+	boost_label.text = "Boost"
+	boost_label.position = Vector2(0, -36)
+	boost_label.add_theme_font_size_override("font_size", 22)
+	boost_label.add_theme_color_override("font_color", TEXT_COLOR)
+	_boost_bar.add_child(boost_label)
 
 	_dive_bar = ProgressBar.new()
 	_dive_bar.position = Vector2(20, 130)
@@ -82,14 +101,15 @@ func _process(delta: float) -> void:
 
 
 ## time_left is only shown in timed mode (pass -1 otherwise).
-func show_stats(distance_m: float, speed: float, soft_ball: bool, time_left := -1.0) -> void:
+func show_stats(distance_m: float, speed: float, soft_ball: bool, boost: float, time_left := -1.0) -> void:
 	var device := "device connected" if InputProcessing.connected else "no device (hold SPACE / mouse)"
 	if InputProcessing.is_calibrating():
 		device = "calibrating... hold still"
 	var time := ("Time: %d s\n" % ceili(time_left)) if time_left >= 0.0 else ""
-	_stats.text = "%sSpeed: %d\nInput: %s\n[C] calibrate   [R] restart   [B] ball: %s   [Esc] menu" % [
+	_stats.text = "%sSpeed: %d\nInput: %s\n[C] calibrate   [R] restart   [B] ball: %s   [→] boost   [Esc] menu" % [
 		time, int(speed), device, "soft" if soft_ball else "rigid"]
 	_distance.text = "%d m" % int(distance_m)
+	_boost_bar.value = boost
 
 
 func show_result(distance_m: float) -> void:

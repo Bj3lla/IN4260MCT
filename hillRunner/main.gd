@@ -48,7 +48,7 @@ func _process(delta: float) -> void:
 	_best_m = maxf(_best_m, (ball.global_position.x - _start_x) / PIXELS_PER_METER) #updates distance traveled
 	if timed:
 		_time_left = maxf(_time_left - delta, 0.0)
-	_hud.show_stats(_best_m, ball.linear_velocity.length(), ball is SoftBall, _time_left if timed else -1.0)
+	_hud.show_stats(_best_m, ball.linear_velocity.length(), ball is SoftBall, _player.boost, _time_left if timed else -1.0)
 
 	if timed and _time_left == 0.0:
 		_hud.show_result(_best_m)

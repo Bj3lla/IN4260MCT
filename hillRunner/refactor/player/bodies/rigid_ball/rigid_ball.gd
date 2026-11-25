@@ -82,6 +82,9 @@ func _integrate(state: PhysicsDirectBodyState2D) -> void:
 		v.x = maxf(v.x, min_speed)
 		v = v.limit_length(max_speed)
 
+	if boosting:
+		v = (v + v.normalized() * boost_accel * dt).limit_length(max_speed)
+
 	_velocity = v
 	state.linear_velocity = v
 
