@@ -15,13 +15,21 @@ const SPAWN_HEIGHT := 80.0     ## ball spawns this far above the ground
 @export var track: Track
 ## Which ball to spawn. Static, so it is kept across restarts (scene reloads).
 static var use_soft_ball := false
+@export var boost_time := 3.0  ## seconds of boost in a full bar
 
 var ball: PlayerPhysics
+var boost := 1.0               ## boost left for this run, 0..1
 
 
 func _ready() -> void:
 	global_position.y = track.height_at(global_position.x) - SPAWN_HEIGHT
 	_spawn(global_position)
+
+
+func _physics_process(delta: float) -> void:
+	ball.boosting = InputProcessing.boosting and boost > 0.0
+	if ball.boosting:
+		boost = maxf(boost - delta / boost_time, 0.0)
 
 
 func _unhandled_input(event: InputEvent) -> void:

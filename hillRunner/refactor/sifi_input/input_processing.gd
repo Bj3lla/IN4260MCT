@@ -15,7 +15,8 @@ extends Node
 # Stanislaw's rotation implementation
 @export var rotation_axis := Vector3(1,0,0)
 @export var rotation_threshold_deg := 10.0
-@export var rotation_full_deg := 90.0 
+@export var rotation_full_deg := 90.0
+@export var boost_rotation := 0.5        ## rotation (0..1) from which the wrist triggers boost
 
 @export_group("Response")
 @export var smoothing := 15.0            ## higher = snappier, lower = smoother
@@ -34,6 +35,7 @@ var dive := 0.0            ## final smoothed value, 0..1
 var device_dive := 0.0     ## unsmoothed value from the device only
 var device_rotation := 0.0
 var rotation := 0.0
+var boosting := false      ## Right arrow held, or wrist rotated past boost_rotation
 var connected := false
 
 var _server: ServerScript
@@ -83,6 +85,7 @@ func _process(delta: float) -> void:
 	var target_rotation := 1.0 if Input.is_action_just_pressed("boost") else device_rotation
 	dive = lerpf(dive, target, 1.0 - exp(-smoothing * delta))
 	rotation = lerpf(rotation,target_rotation, 1.0 - exp(-smoothing * delta))
+	boosting = Input.is_action_pressed("boost") or device_rotation > boost_rotation
 
 	if debug_print and connected:
 		_debug_timer -= delta
