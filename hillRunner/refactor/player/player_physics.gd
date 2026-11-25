@@ -29,7 +29,8 @@ const GREAT_LANDING := 0.6   ## slope fraction (0..1) from which a landing is "g
 @export_group("Float")
 @export_range(0.0, 0.95) var max_float_lift := 0.7  ## share of air gravity cancelled at dive = -1. Keep < 1 or it never falls
 @export var float_rise_drag := 3.0                  ## how fast upward speed bleeds off while floating
-@export var float_fall_drag := 2.0                  ## higher = slower, floatier descent
+@export var float_fall_speed := 100.0  ## gentle fall speed (px/s) that floating brakes a fast fall down to
+@export var float_catch := 6.0         ## how hard a fast fall is braked toward float_fall_speed (per second)
 
 @export_group("Ground")
 @export var steep_slope := 0.6           ## slope (tangent.y) that counts as "fully steep"
@@ -112,8 +113,11 @@ func air_accel_y(dive: float, vy: float) -> float:
 
 	var f := minf(-dive, 1.0) * float_strength     # 0..1 float amount
 	var accel := g * (1.0 - max_float_lift * f)    # weaker gravity, still positive
-	var drag := float_rise_drag if vy < 0.0 else float_fall_drag
-	return accel - vy * drag * f                   # damps rising and falling
+	if vy < 0.0:
+		accel -= vy * float_rise_drag * f          # rising: bleed off upward speed
+	elif vy > float_fall_speed:
+		accel -= (vy - float_fall_speed) * float_catch * f   # falling fast: catch it
+	return accel
 
 
 func _judge_landing(slope: float) -> float:
