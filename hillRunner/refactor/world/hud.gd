@@ -15,7 +15,6 @@ const LANDING_TEXTS := {"great": "Great landing!", "good": "Nice landing", "bad"
 const SHOW_TIME := 1.2
 const FADE_TIME := 0.4
 const MAX_SPEED := 2000.0  # speed that fills the speedometer
-const BOOST_DRAIN := 0.1 # per second
 
 const ROTATE_ICON := preload("res://refactor/visuals/rotation_icon.svg")
 const DIVE_ICON := preload("res://refactor/visuals/vertical_tilt_icon.svg")
@@ -34,7 +33,6 @@ var _rotate_box: HBoxContainer
 var _boost_box: HBoxContainer
 var _landing_box: VBoxContainer
 var _landing_timer := 0.0
-var _use_boost := false #this one needs to be updated from the boost method!
 var _result: Label
 
 
@@ -94,9 +92,6 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
-	if _use_boost:
-		_boost_bar.value -= BOOST_DRAIN * delta #empties boost-bar whenever boost is used 
-		
 	_dive_bar.value = InputProcessing.dive
 	var dive := _dive_bar.value
 	var dive_fill: StyleBoxFlat = _dive_bar.get_theme_stylebox("fill")
