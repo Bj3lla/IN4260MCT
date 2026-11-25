@@ -17,7 +17,7 @@ const OVERSPEED_GAIN := 10.0     ## force per px/s above max_speed
 @export var max_correction := 10000.0  ## px/s² cap on min/max speed pushes (keeps the body from tearing)
 
 @export_group("Shape")
-@export var ball_radius := 20.0      ## centre to the outer points
+@export var ball_radius := 16.0      ## centre to the outer points
 @export var point_radius := 10.0     ## collision radius of each point
 @export var num_points := 10
 @export var stiffness := 1200.0      ## higher = less squishy
