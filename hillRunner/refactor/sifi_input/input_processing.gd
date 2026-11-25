@@ -28,7 +28,7 @@ var orientation := Quaternion.IDENTITY          ## last orientation
 var baseline_orientation := Quaternion.IDENTITY ## rest orientation
 var tilt_deg := 0.0                             ## current tilt about tilt_axis
 var rotation_deg := 0.0
-var heart_rate := 0.0
+var heart_rate := 80.0
 var hr_deviation := 0.0
 var dive := 0.0            ## final smoothed value, 0..1
 var device_dive := 0.0     ## unsmoothed value from the device only
@@ -117,11 +117,16 @@ func _on_imu(vectors: Array) -> void:
 	# Wrist rotation, check DISCORD NOTES
 	device_rotation = sign(rotation_deg) * clampf((abs(rotation_deg) - rotation_threshold_deg) / maxf(rotation_full_deg - rotation_threshold_deg, 0.001),0.0,1.0)
 
-## vectors = [heart_rate, deviation], right?
-func _on_hrt(vectors: Array) -> void:
-	if vectors.size() >= 2:
-		heart_rate = vectors[0]
-		hr_deviation = vectors[1]
+## hr = [heart_rate, deviation], right?
+func _on_hrt(hr: Array) -> void:
+	if hr.size() >= 2:
+		var new_heart_rate: float = hr[0]
+		hr_deviation = hr[1]
+		
+		#check that heartrate is reasonable
+		if new_heart_rate > 30.0:
+			heart_rate = new_heart_rate   #updates heart_rate whenever a package arrives
+		else: print("Can't adjust music BPM since heartrate < 30 BPM")
 
 
 func _accumulate_calibration(q: Quaternion) -> void:

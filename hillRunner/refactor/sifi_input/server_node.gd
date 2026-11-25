@@ -24,7 +24,7 @@ func _ready():
 		print("Failed to bind UDP socket: ", error)
 
 func _process(delta):
-	if udp.get_available_packet_count() > 0:
+	if udp.get_available_packet_count() > 0: #change to a while loop instead so it reads more packages every frame?
 		var packet : PackedByteArray = udp.get_packet()
 		unpack_data(packet)
 
