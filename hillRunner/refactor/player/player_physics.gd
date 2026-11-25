@@ -10,6 +10,7 @@ signal landed(kind: String, change: float)
 const CHARACTER_TEXTURE: Texture2D = preload("res://refactor/visuals/Ball character.svg")
 const COLOR_REST := Color("#EDE3C9")
 const COLOR_DIVE := Color("#FF87B6")
+const COLOR_FLOAT := Color("#60F4EA")
 const GREAT_LANDING := 0.6   ## slope fraction (0..1) from which a landing is "great"
 
 @export var start_speed := 250.0
@@ -57,7 +58,7 @@ static func ice() -> PhysicsMaterial:
 
 
 static func dive_color(dive: float) -> Color:
-	return COLOR_REST.lerp(COLOR_DIVE, clampf(dive, 0.0, 1.0))
+	return COLOR_REST.lerp(COLOR_DIVE if dive > 0.0 else COLOR_FLOAT, clampf(absf(dive), 0.0, 1.0))
 
 
 ## Normalised ground normal pointing up, from a sum of contact normals.
