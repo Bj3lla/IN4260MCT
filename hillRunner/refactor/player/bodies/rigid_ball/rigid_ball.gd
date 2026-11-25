@@ -14,6 +14,7 @@ extends PlayerPhysics
 var _body: Body
 var _velocity := Vector2.ZERO   ## the velocity we intend; the solver may disturb the body's own
 var _spin := 0.0
+var _dive = 0.0
 
 
 ## RigidBody2D that hands its integration step to the owning player.
@@ -53,6 +54,7 @@ func _physics_process(delta: float) -> void:
 	global_position = _body.global_position
 	linear_velocity = _body.linear_velocity
 	_spin += linear_velocity.x / radius * delta
+	_dive = InputProcessing.dive
 	queue_redraw()
 
 
@@ -86,6 +88,6 @@ func _integrate(state: PhysicsDirectBodyState2D) -> void:
 
 func _draw() -> void:
 	#draw_set_transform(Vector2.ZERO, _spin)   # roll the character with the ball
-	draw_texture_rect(CHARACTER_TEXTURE, Rect2(-radius, -radius, radius * 2.0, radius * 2.0), false)
+	draw_texture_rect(CHARACTER_TEXTURE, Rect2(-radius, -radius, radius * 2.0, radius * 2.0), false, dive_color(_dive))
 	# Keep a visible boundary around the physics circle.
 	draw_arc(Vector2.ZERO, radius, 0.0, TAU, 48, Color.WHITE, 2.0, true)
