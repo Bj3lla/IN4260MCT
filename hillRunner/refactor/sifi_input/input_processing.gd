@@ -31,7 +31,7 @@ var tilt_deg := 0.0                             ## current tilt about tilt_axis
 var rotation_deg := 0.0
 var heart_rate := 80.0
 var hr_deviation := 0.0
-var dive := 0.0            ## final smoothed value, 0..1
+var dive := 0.0            ## final smoothed value, -1..1
 var device_dive := 0.0     ## unsmoothed value from the device only
 var device_rotation := 0.0
 var rotation := 0.0
@@ -81,7 +81,8 @@ func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("calibrate"):
 		calibrate()
 
-	var target := 1.0 if Input.is_action_pressed("dive") else device_dive
+	var key_dive := Input.get_axis("float_up", "dive")   # Up = -1, Down = +1, both/none = 0
+	var target := key_dive if key_dive != 0.0 else device_dive
 	var target_rotation := 1.0 if Input.is_action_just_pressed("boost") else device_rotation
 	dive = lerpf(dive, target, 1.0 - exp(-smoothing * delta))
 	rotation = lerpf(rotation,target_rotation, 1.0 - exp(-smoothing * delta))

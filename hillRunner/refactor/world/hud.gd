@@ -47,7 +47,6 @@ func _ready() -> void:
 	_timer.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
 	_timer.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT, Control.PRESET_MODE_KEEP_SIZE, MARGIN)
 	
-	
 	_landing_box = VBoxContainer.new()
 	_landing_box.anchor_right = 1.0
 	_landing_box.offset_top = 40

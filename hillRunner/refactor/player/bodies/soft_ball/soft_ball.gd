@@ -102,7 +102,7 @@ func _physics_process(delta: float) -> void:
 		if advance_air(delta, v, dive):
 			_boost(Vector2(0.0, v.y * (launch_boost - 1.0)))
 		# Every point already feels 1x gravity; add the difference.
-		force.y += gravity * (air_gravity - 1.0 + air_dive_gravity * dive) * total_mass
+		force.y += (air_accel_y(dive, v.y) - gravity) * total_mass
 		if v.x < min_speed:
 			force.x += _floor_push(min_speed - v.x) * total_mass
 

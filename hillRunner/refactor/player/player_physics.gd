@@ -25,6 +25,11 @@ const GREAT_LANDING := 0.6   ## slope fraction (0..1) from which a landing is "g
 @export var launch_delay := 0.05         ## seconds airborne before the launch boost applies
 @export var launch_max_dive := 0.3       ## no launch boost while diving harder than this
 
+@export_group("Float")
+@export_range(0.0, 0.95) var max_float_lift := 0.7  ## share of air gravity cancelled at dive = -1. Keep < 1 or it never falls
+@export var float_rise_drag := 3.0                  ## how fast upward speed bleeds off while floating
+@export var float_fall_drag := 2.0                  ## higher = slower, floatier descent
+
 @export_group("Ground")
 @export var steep_slope := 0.6           ## slope (tangent.y) that counts as "fully steep"
 @export var uphill_brake := 1.3          ## uphill braking vs downhill thrust (>1: holding dive forever doesn't pay)
@@ -38,6 +43,7 @@ const GREAT_LANDING := 0.6   ## slope fraction (0..1) from which a landing is "g
 var linear_velocity := Vector2.ZERO   ## average velocity, kept up to date by the subclass
 var on_ground := false
 var boosting := false                 ## set by Player while boost is held and the bar isn't empty
+var float_strength := 1.0 
 var air_time := 0.0
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity", 980.0)
 
@@ -51,7 +57,7 @@ static func ice() -> PhysicsMaterial:
 
 
 static func dive_color(dive: float) -> Color:
-	return COLOR_REST.lerp(COLOR_DIVE, dive)
+	return COLOR_REST.lerp(COLOR_DIVE, clampf(dive, 0.0, 1.0))
 
 
 ## Normalised ground normal pointing up, from a sum of contact normals.
@@ -69,6 +75,7 @@ static func tangent_of(normal: Vector2) -> Vector2:
 ## Extra acceleration along the hill from diving. Positive on downslopes,
 ## negative (braking) on upslopes, and never pushes backwards below min_speed.
 func slope_thrust(tangent: Vector2, dive: float, speed: float, strength: float) -> float:
+	dive = maxf(dive, 0.0) #floating does nothing on the ground
 	var slope := clampf(tangent.y / steep_slope, -1.0, 1.0)
 	var thrust := dive * strength * slope
 	if slope < 0.0:
@@ -93,6 +100,19 @@ func advance_air(dt: float, velocity: Vector2, dive: float) -> bool:
 	air_time += dt
 	return (was < launch_delay and air_time >= launch_delay
 			and -velocity.y > min_launch_vy and dive < launch_max_dive)
+
+
+## Vertical acceleration in the air (px/s², +y = down) for the current dive.
+## dive > 0: heavier, lands sooner. dive < 0: floaty, but gravity never flips.
+func air_accel_y(dive: float, vy: float) -> float:
+	var g := gravity * air_gravity
+	if dive >= 0.0:
+		return g + gravity * air_dive_gravity * dive
+
+	var f := minf(-dive, 1.0) * float_strength     # 0..1 float amount
+	var accel := g * (1.0 - max_float_lift * f)    # weaker gravity, still positive
+	var drag := float_rise_drag if vy < 0.0 else float_fall_drag
+	return accel - vy * drag * f                   # damps rising and falling
 
 
 func _judge_landing(slope: float) -> float:
