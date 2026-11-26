@@ -16,7 +16,7 @@ const GREAT_LANDING := 0.6   ## slope fraction (0..1) from which a landing is "g
 @export var start_speed := 250.0
 @export var min_speed := 180.0           ## never stall completely
 @export var max_speed := 1800.0
-@export var boost_accel := 600.0         ## forward acceleration while boosting
+@export var boost_accel := 3000.0         ## forward acceleration while boosting
 
 @export_group("Air")
 @export var air_gravity := 0.8           ## gravity scale while flying (lower = floatier)
