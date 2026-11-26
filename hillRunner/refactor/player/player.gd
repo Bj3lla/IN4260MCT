@@ -7,6 +7,7 @@ extends Node2D
 
 signal ball_changed(ball: PlayerPhysics)        ## e.g. for the camera to follow the new ball
 signal landed(kind: String, change: float)      ## relayed from whichever ball is active, kind kan be "bad", "good", or "great", change is speedchange
+signal collected(amount: float) ## e.g. for a sound and/or hud flash 
 
 const SOFT_BALL_SCENE := preload("res://refactor/player/bodies/soft_ball/soft_ball.tscn")
 const SWAP_LIFT := Vector2(0.0, -20.0)          ## spawn a swapped ball slightly higher, clear of the ground
@@ -73,3 +74,7 @@ func _spawn(at: Vector2) -> void:
 	add_child(ball)
 	ball.landed.connect(landed.emit)
 	ball_changed.emit(ball)
+
+func add_boost(amount: float) -> void:
+	boost = minf(boost + amount, 1.0)
+	collected.emit(amount)
