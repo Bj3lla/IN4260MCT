@@ -17,6 +17,7 @@ static var timed := false
 @onready var _hud: Hud = $Hud
 @onready var _camera: Camera = $Camera
 @onready var _music: AudioStreamPlayer = $Music
+@onready var _swoosh: AudioStreamPlayer = $Swoosh
 
 var _start_x := 0.0
 var _best_m := 0.0
@@ -46,6 +47,7 @@ func _process(delta: float) -> void:
 	if timed and _time_left == 0.0:
 		_hud.show_result(_best_m)
 		_music.stream_paused = true
+		_swoosh.stream_paused = true
 		get_tree().paused = true #World, Player and Camera are pausable, Main and Hud keep running
 		return
 		
