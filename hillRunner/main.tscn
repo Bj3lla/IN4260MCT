@@ -12,6 +12,7 @@
 [ext_resource type="Script" uid="uid://cj4lokwes8ya1" path="res://refactor/audio/landing.gd" id="10_4c57u"]
 [ext_resource type="AudioStream" uid="uid://b36c2gpf7si4u" path="res://refactor/audio/samples/freesound_gamestudio-clear-combo-7-394494.mp3" id="11_dg77c"]
 [ext_resource type="AudioStream" uid="uid://43mvs7l75gdh" path="res://refactor/audio/samples/u_id15birb4y-deep-kick-397047.mp3" id="12_ycdy4"]
+[ext_resource type="AudioStream" uid="uid://b2gphlxb65ywb" path="res://refactor/audio/samples/freesound_gamestudio-material-gold-394476.mp3" id="13_ycdy4"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_vivmo"]
 random_volume_offset_db = 1.1
@@ -60,5 +61,11 @@ script = ExtResource("10_4c57u")
 player = NodePath("../Player")
 great_landing = SubResource("AudioStreamRandomizer_vivmo")
 bad_landing = SubResource("AudioStreamRandomizer_w48qg")
+
+[node name="Collecting" type="AudioStreamPlayer" parent="." unique_id=508857814]
+stream = ExtResource("13_ycdy4")
+volume_db = -12.0
+
+[connection signal="collected" from="Player" to="." method="_on_player_collected"]
 
 [editable path="World"]

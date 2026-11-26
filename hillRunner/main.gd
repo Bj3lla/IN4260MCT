@@ -18,6 +18,7 @@ static var timed := false
 @onready var _camera: Camera = $Camera
 @onready var _music: AudioStreamPlayer = $Music
 @onready var _swoosh: AudioStreamPlayer = $Swoosh
+@onready var collect_sound: AudioStreamPlayer = $Collecting
 
 var _start_x := 0.0
 var _best_m := 0.0
@@ -32,15 +33,8 @@ func _ready() -> void:
 	_player.ball_changed.connect(func(ball: PlayerPhysics) -> void: _camera.target = ball) #camera updates reference ball when switching to another ball (key B)
 
 	_player.landed.connect(_hud.show_landing) #shows "Great landing!" or "Bad landing"
-
-
-func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("restart"):
-		get_tree().paused = false #a finished timed run is paused
-		get_tree().reload_current_scene()
-	elif event.is_action_pressed("ui_cancel"):
-		get_tree().paused = false
-		get_tree().change_scene_to_file(MENU_SCENE)
+	
+	$Player.collected.connect(_on_collected)
 
 
 func _process(delta: float) -> void:
@@ -56,3 +50,15 @@ func _process(delta: float) -> void:
 	if timed:
 		_time_left = maxf(_time_left - delta, 0.0)
 	_hud.show_stats(_best_m, _player.boost, _time_left if timed else -1.0)
+	
+	
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("restart"):
+		get_tree().paused = false #a finished timed run is paused
+		get_tree().reload_current_scene()
+	elif event.is_action_pressed("ui_cancel"):
+		get_tree().paused = false
+		get_tree().change_scene_to_file(MENU_SCENE)
+	
+func _on_collected(_amount: float) -> void:
+	collect_sound.play()
