@@ -11,7 +11,9 @@ const CHARACTER_TEXTURE: Texture2D = preload("res://refactor/visuals/Ball charac
 const COLOR_REST := Color("#EDE3C9")
 const COLOR_DIVE := Color("#FF87B6")
 const COLOR_FLOAT := Color("#60F4EA")
+const COLOR_BOOST := Color("#FBB14D")
 const GREAT_LANDING := 0.6   ## slope fraction (0..1) from which a landing is "great"
+const COLOR_DEADZONE := 0.05 
 
 @export var start_speed := 250.0
 @export var min_speed := 180.0           ## never stall completely
@@ -58,7 +60,11 @@ static func ice() -> PhysicsMaterial:
 	return material
 
 
-static func dive_color(dive: float) -> Color:
+func color(dive: float) -> Color:
+	if boosting:
+		return COLOR_BOOST
+	if absf(dive) < COLOR_DEADZONE:
+		return COLOR_REST
 	return COLOR_REST.lerp(COLOR_DIVE if dive > 0.0 else COLOR_FLOAT, clampf(absf(dive), 0.0, 1.0))
 
 

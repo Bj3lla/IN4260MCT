@@ -118,7 +118,7 @@ func _physics_process(delta: float) -> void:
 		_boost_left -= delta
 
 	center.apply_central_force(force)
-	_polygon.color = dive_color(dive)
+	_polygon.color = color(dive)
 
 
 func _floor_push(deficit: float) -> float:
