@@ -108,6 +108,7 @@ func show_stats(distance_m: float, boost: float, time_left := -1.0) -> void:
 func show_result(distance_m: float) -> void:
 	_result.text = "Time's up!\nYou got %d m\n\n[R] play again   [Esc] menu" % int(distance_m)
 	_result.show()
+	
 
 
 ## Connect to a player's `landed` signal.
