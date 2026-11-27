@@ -20,7 +20,7 @@ static var use_soft_ball := false
 
 # NEW: float meter
 # float meter
-@export var float_half_life := 0.6   ## seconds of full float until the lift is halved
+@export var float_half_life := 0.3   ## seconds of full float until the lift is halved
 @export var float_grace := 0.4       ## seconds of full-strength float (the catch) before it starts fading
 
 var float_left := 1.0                ## 0..1, reset on every takeoff

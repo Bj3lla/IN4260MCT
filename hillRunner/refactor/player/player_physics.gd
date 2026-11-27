@@ -30,7 +30,7 @@ const COLOR_DEADZONE := 0.05
 
 @export_group("Float")
 @export_range(0.0, 0.95) var max_float_lift := 0.7  ## share of air gravity cancelled at dive = -1. Keep < 1 or it never falls
-@export var float_rise_drag := 3.0                  ## how fast upward speed bleeds off while floating
+@export var float_rise_drag := 1.0                  ## how fast upward speed bleeds off while floating
 @export var float_fall_speed := 100.0  ## gentle fall speed (px/s) that floating brakes a fast fall down to
 @export var float_catch := 6.0         ## how hard a fast fall is braked toward float_fall_speed (per second)
 
