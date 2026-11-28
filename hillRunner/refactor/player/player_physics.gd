@@ -15,8 +15,8 @@ const COLOR_BOOST := Color("#FBB14D")
 const GREAT_LANDING := 0.6   ## slope fraction (0..1) from which a landing is "great"
 const COLOR_DEADZONE := 0.05 
 
-@export var start_speed := 250.0
-@export var min_speed := 180.0           ## never stall completely
+@export var start_speed := 400.0
+@export var min_speed := 350.0           ## never stall completely
 @export var max_speed := 1800.0
 @export var boost_accel := 2000.0         ## forward acceleration while boosting
 
