@@ -15,10 +15,10 @@ const COLOR_BOOST := Color("#FBB14D")
 const GREAT_LANDING := 0.6   ## slope fraction (0..1) from which a landing is "great"
 const COLOR_DEADZONE := 0.05 
 
-@export var start_speed := 400.0
-@export var min_speed := 350.0           ## never stall completely
+@export var start_speed := 200.0
+@export var min_speed := 180.0           ## never stall completely
 @export var max_speed := 1800.0
-@export var boost_accel := 2000.0         ## forward acceleration while boosting
+@export var boost_accel := 1500.0         ## forward acceleration while boosting
 
 @export_group("Air")
 @export var air_gravity := 0.8           ## gravity scale while flying (lower = floatier)
@@ -40,7 +40,7 @@ const COLOR_DEADZONE := 0.05
 
 @export_group("Landing")
 @export var landing_bonus := 0.3        ## max speed gained on a steep downslope (+15%)
-@export var landing_penalty := 0.3       ## max speed lost on a steep upslope (-40%)
+@export var landing_penalty := 0.3       ## max speed lost on a steep upslope (-30%)
 @export var min_air_time := 0.12         ## seconds airborne before a touchdown counts
 @export var flat_slope := 0.05           ## slopes flatter than this are neither good nor bad
 

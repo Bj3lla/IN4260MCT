@@ -7,7 +7,6 @@ extends PlayerPhysics
 ## to the outer points.
 ##
 
-const SPEED_FLOOR_GAIN := 5.0    ## force per px/s below min_speed
 const OVERSPEED_GAIN := 10.0     ## force per px/s above max_speed
 
 @export_group("Gameplay")
@@ -15,6 +14,7 @@ const OVERSPEED_GAIN := 10.0     ## force per px/s above max_speed
 @export var dive_squash := 0.0     ## extra push into the ground while diving (above ~0.3 the ring tends to fold)
 @export var boost_time := 0.2      ## landing/launch kicks are spread over this many seconds
 @export var max_correction := 10000.0  ## px/s² cap on min/max speed pushes (keeps the body from tearing)
+@export var speed_floor_gain := 25.0   # was const SPEED_FLOOR_GAIN := 5.0
 
 @export_group("Shape")
 @export var ball_radius := 16.0      ## centre to the outer points
@@ -49,6 +49,11 @@ var _curve := Curve2D.new()
 var _polygon := Polygon2D.new()
 var _line := Line2D.new()
 
+func _init() -> void:
+	start_speed = 520.0
+	min_speed = 500.0
+	uphill_brake = 1.3
+	landing_bonus = 0.5
 
 func _ready() -> void:
 	add_child(_body)
@@ -122,7 +127,7 @@ func _physics_process(delta: float) -> void:
 
 
 func _floor_push(deficit: float) -> float:
-	return minf(deficit * SPEED_FLOOR_GAIN, max_correction)
+	return minf(deficit * speed_floor_gain, max_correction)
 
 
 ## Spread a velocity change over boost_time so the centre doesn't punch through the ring.
@@ -167,6 +172,8 @@ func _make_point(pos: Vector2, mass: float) -> RigidBody2D:
 	p.continuous_cd = RigidBody2D.CCD_MODE_CAST_SHAPE
 	p.contact_monitor = true          # needed by _track_normal()
 	p.max_contacts_reported = 2
+	p.linear_damp_mode = RigidBody2D.DAMP_MODE_REPLACE
+	p.linear_damp = 0.0
 	_body.add_child(p)
 	return p
 
